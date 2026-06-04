@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PALNOX — Design System</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<template id="__bundler_thumbnail" data-bg-color="#070B14">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="tp" x1="540" y1="200" x2="470" y2="640" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#4ADAEE"/><stop offset="0.55" stop-color="#2E72E6"/><stop offset="1" stop-color="#8C2AD9"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="800" fill="#070B14"/>
+    <g transform="translate(600 400) scale(3.4) translate(-64 -54)">
+      <path fill="url(#tp)" d="M38 44 L41 17 L61 33 L61 82 L83 90 L51 121 L44 101 L38 96 Z"/>
+      <path fill="url(#tp)" fill-rule="evenodd" clip-rule="evenodd" d="M82 13 A39 39 0 1 1 81.99 13 Z M82 31 A21 21 0 1 0 82.01 31 Z"/>
+      <circle cx="82" cy="52" r="20.5" fill="#0A1024"/>
+      <circle cx="74" cy="50" r="3.4" fill="#EAF1FF"/><circle cx="90" cy="50" r="3.4" fill="#EAF1FF"/>
+    </g>
+  </svg>
+</template>
+<style>
+  body { margin:0; background: var(--bg-0); color: var(--text-1); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+  body::before { content:""; position: fixed; inset:0; background: var(--grad-aurora); pointer-events:none; z-index:0; opacity:0.8; }
+  a { color: inherit; }
+  .layout { display: grid; grid-template-columns: 264px 1fr; max-width: 1440px; margin: 0 auto; position: relative; z-index:1; }
+  .side { position: sticky; top:0; height: 100vh; overflow-y: auto; padding: 26px 18px 40px; border-right: 1px solid var(--border); background: rgba(8,12,20,0.6); backdrop-filter: blur(10px); }
+  .side .brand { display:flex; align-items:center; gap:10px; padding: 0 8px 22px; }
+  .side .brand img { height: 32px; border-radius:9px; }
+  .side .brand b { font-family: var(--font-display); font-weight:700; font-size:18px; letter-spacing:0.05em; }
+  .navgrp { margin-top: 14px; }
+  .navgrp h6 { font-family: var(--font-display); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color: var(--text-4); margin: 0 0 6px; padding: 0 10px; }
+  .navgrp a { display:flex; align-items:center; gap:10px; padding: 8px 10px; border-radius: var(--r-sm); color: var(--text-3); text-decoration:none; font-size:14px; font-weight:500; transition: all .15s; }
+  .navgrp a:hover { background: var(--surface-2); color: var(--text-1); }
+  .navgrp a i { font-size:17px; width:18px; text-align:center; }
+  main { padding: 0 48px 120px; min-width: 0; }
+  section { padding-top: 88px; margin-top: -64px; }
+  .sec-head { margin-bottom: 26px; }
+  .sec-head .kicker { color: var(--cyan-300); font-family: var(--font-display); font-weight:600; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; }
+  .sec-head h2 { font-family: var(--font-display); font-weight:700; font-size:30px; margin: 8px 0 6px; letter-spacing:-0.01em; }
+  .sec-head p { color: var(--text-2); max-width: 66ch; margin:0; font-size:15px; line-height:1.55; }
+  .sec-head p b { color: var(--text-1); font-weight:600; }
+  .grid { display:grid; gap: 16px; }
+  .panel { background: var(--grad-surface); border:1px solid var(--border); border-radius: var(--r-lg); padding: 22px; position:relative; }
+  .label { font-family: var(--font-display); font-weight:600; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color: var(--text-3); margin-bottom:14px; }
+  .hero { padding: 84px 0 26px; position: relative; }
+  .hero .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border:1px solid var(--border-strong); border-radius:var(--r-pill); font-family:var(--font-display); font-weight:600; font-size:12px; letter-spacing:0.1em; color: var(--cyan-300); background: rgba(31,195,212,0.08); }
+  .hero h1 { font-family: var(--font-display); font-weight:700; font-size:56px; line-height:1.02; letter-spacing:-0.02em; margin: 22px 0 14px; }
+  .hero h1 .g { background: var(--grad-brand); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p { color: var(--text-2); font-size:18px; max-width: 54ch; line-height:1.5; }
+  .hero-meta { display:flex; gap:30px; margin-top:30px; flex-wrap:wrap; }
+  .hero-meta .n { font-family: var(--font-stat); font-weight:700; font-size:28px; color: var(--text-1); display:block; }
+  .hero-meta .l { font-size:12px; color: var(--text-3); letter-spacing:0.06em; text-transform:uppercase; font-family:var(--font-display); }
+  .nox-hero { position:absolute; right:0; top:50px; width:240px; filter: drop-shadow(0 20px 50px rgba(41,214,230,0.35)); animation: float 5s var(--ease-out) infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+  .scale { display:grid; grid-template-columns: repeat(5,1fr); gap:10px; }
+  .sw { border-radius: var(--r-md); overflow:hidden; border:1px solid var(--border); }
+  .sw .chip { height: 60px; }
+  .sw .meta { padding: 8px 10px; background: var(--surface-1); }
+  .sw .meta b { font-family: var(--font-display); font-size:12px; display:block; }
+  .sw .meta code { font-size:10.5px; color: var(--text-3); }
+  .swatch-row { display:grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+  .swatch { border-radius: var(--r-md); border:1px solid var(--border); padding:14px; display:flex; flex-direction:column; gap:6px; min-height:96px; justify-content:flex-end; }
+  .swatch b { font-family: var(--font-display); font-size:13px; }
+  .swatch code { font-size:11px; opacity:0.85; }
+  .type-row { display:grid; grid-template-columns: 130px 1fr; gap:20px; align-items:baseline; padding: 16px 0; border-bottom:1px solid var(--border); }
+  .type-row .meta { font-size:12px; color: var(--text-3); font-family: var(--font-display); }
+  .type-row .meta b { color: var(--text-2); display:block; font-size:13px; }
+  .toks { display:grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
+  .tok { background: var(--surface-1); border:1px solid var(--border); border-radius: var(--r-md); padding:14px; }
+  .tok .demo { background: var(--grad-cyan); border-radius:4px; margin-bottom:12px; }
+  .tok b { font-family: var(--font-display); font-size:13px; } .tok code { font-size:11px; color: var(--text-3); }
+  .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  .stack { display:flex; flex-direction:column; gap:14px; }
+  .icons { display:grid; grid-template-columns: repeat(auto-fill,minmax(92px,1fr)); gap:10px; }
+  .ic-cell { background: var(--surface-1); border:1px solid var(--border); border-radius: var(--r-md); padding:16px 8px; text-align:center; transition: all .2s; cursor:default; }
+  .ic-cell:hover { border-color: var(--border-glow); color: var(--cyan-300); transform: translateY(-2px); }
+  .ic-cell i { font-size:26px; } .ic-cell span { display:block; margin-top:8px; font-size:11px; color: var(--text-3); }
+  .codeblk { background: #070B14; border:1px solid var(--border); border-radius: var(--r-md); padding:16px 18px; font-family:'Chakra Petch', monospace; font-size:12.5px; line-height:1.7; color: var(--text-2); overflow-x:auto; white-space:pre; }
+  .screens-grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(176px,1fr)); gap:18px; }
+  .scard { display:block; text-decoration:none; }
+  .scard .thumb { aspect-ratio: 9/19.5; border-radius: var(--r-lg); border:1px solid var(--border); overflow:hidden; position:relative; transition: all .2s; background:var(--surface-1); }
+  .scard .thumb img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+  .scard:hover .thumb { border-color: var(--border-glow); transform: translateY(-4px); box-shadow: var(--shadow-3); }
+  .scard .cap { font-family:var(--font-display); font-weight:600; font-size:14px; margin-top:12px; }
+  .scard .cap span { display:block; color: var(--text-3); font-size:12px; font-weight:400; font-family:var(--font-body); margin-top:2px; }
+  @media (max-width: 920px){
+    .layout { grid-template-columns: 1fr; }
+    .side { display:none; }
+    main { padding: 0 20px 80px; }
+    .nox-hero { display:none; }
+    .hero h1 { font-size: 38px; }
+    .scale { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div class="brand"><img src="assets/logo-mark.png" alt="Palnox"><b>PALNOX</b></div>
+    <div class="navgrp">
+      <h6>Fondations</h6>
+      <a href="#brand"><i class="ph ph-sparkle"></i> Marque &amp; Logo</a>
+      <a href="#nox"><i class="ph ph-ghost"></i> Mascotte Nox</a>
+      <a href="#colors"><i class="ph ph-palette"></i> Couleurs</a>
+      <a href="#type"><i class="ph ph-text-aa"></i> Typographie</a>
+      <a href="#tokens"><i class="ph ph-ruler"></i> Spacing &amp; Radius</a>
+      <a href="#elevation"><i class="ph ph-stack"></i> Ombres &amp; Glows</a>
+      <a href="#gradients"><i class="ph ph-drop-half"></i> Gradients</a>
+      <a href="#icons"><i class="ph ph-shapes"></i> Iconographie</a>
+    </div>
+    <div class="navgrp">
+      <h6>Composants</h6>
+      <a href="#buttons"><i class="ph ph-cursor-click"></i> Boutons</a>
+      <a href="#cards"><i class="ph ph-cards-three"></i> Cartes</a>
+      <a href="#badges"><i class="ph ph-seal-check"></i> Badges &amp; Rareté</a>
+      <a href="#inputs"><i class="ph ph-textbox"></i> Champs &amp; Filtres</a>
+      <a href="#nav"><i class="ph ph-squares-four"></i> Navigation</a>
+    </div>
+    <div class="navgrp">
+      <h6>Application</h6>
+      <a href="#screens"><i class="ph ph-device-mobile"></i> Écrans hi-fi</a>
+      <a href="#dev"><i class="ph ph-code"></i> Specs développeur</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <img class="nox-hero" src="assets/nox-mascot.png" alt="Nox">
+      <span class="eyebrow"><i class="ph-fill ph-game-controller"></i> Design System v1.0 · Dark only</span>
+      <h1>Le système de design<br><span class="g">PALNOX</span></h1>
+      <p>L'univers graphique du companion Palworld ultime : fondations, tokens, composants réutilisables et écrans haute-fidélité. Fusion 70 % Palworld · 30 % Betnox.</p>
+      <div class="hero-meta">
+        <div><span class="n">7</span><span class="l">Palettes</span></div>
+        <div><span class="n">24+</span><span class="l">Composants</span></div>
+        <div><span class="n">8</span><span class="l">Écrans</span></div>
+        <div><span class="n">2</span><span class="l">Cibles dev</span></div>
+      </div>
+    </div>
+
+    <section id="brand">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Marque &amp; Logo</h2>
+        <p>Le logo officiel PALNOX : un <b>P</b> glossy bleu→violet dont la contreforme abrite <b>Nox</b>, l'esprit-créature aux yeux lumineux. Étincelles, traînées de vitesse et finition premium gaming. <b>Assets PNG à fond transparent</b> — utilisables sur n'importe quel fond.</p></div>
+      <div class="grid" style="grid-template-columns: 1.35fr 1fr;">
+        <div class="panel" style="display:flex;align-items:center;justify-content:center;min-height:300px;padding:24px;background:radial-gradient(120% 120% at 50% 0%, rgba(46,143,232,0.16), transparent 60%), #070B14;">
+          <img src="assets/logo-primary.png" alt="Logo PALNOX complet" style="width:92%;display:block;">
+        </div>
+        <div class="panel" style="display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 120% at 50% 30%, rgba(139,69,230,0.18), transparent 65%), #070B14;">
+          <img src="assets/logo-mark.png" alt="Logo mark PALNOX" style="width:78%;display:block;">
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns: repeat(4,1fr); margin-top:16px;">
+        <div class="panel" style="text-align:center;"><div class="label">App icon</div><img src="assets/logo-square.png" style="width:96px;border-radius:21px;margin:4px auto 10px;display:block;box-shadow:var(--shadow-2);"><p class="t-body-sm"><code>logo-square.png</code></p></div>
+        <div class="panel" style="text-align:center;"><div class="label">Favicon</div><div style="display:flex;gap:10px;align-items:flex-end;justify-content:center;margin:4px 0 10px;"><img src="assets/logo-favicon.png" style="width:56px;border-radius:13px;"><img src="assets/logo-favicon.png" style="width:28px;border-radius:7px;"></div><p class="t-body-sm"><code>logo-favicon.png</code></p></div>
+        <div class="panel" style="text-align:center;"><div class="label">Mark (transparent)</div><div style="display:flex;align-items:center;justify-content:center;margin:4px 0 10px;min-height:84px;"><img src="assets/logo-mark.png" style="width:84px;display:block;"></div><p class="t-body-sm"><code>logo-mark.png</code></p></div>
+        <div class="panel" style="text-align:center;"><div class="label">Mono (clair / masque)</div><div style="background:#EEF3FF;border-radius:12px;margin:4px 0 10px;display:flex;align-items:center;justify-content:center;min-height:84px;"><img src="assets/logo-mono.png" style="width:70px;display:block;filter:brightness(0.18);"></div><p class="t-body-sm"><code>logo-mono.png</code></p></div>
+      </div>
+      <div class="grid" style="grid-template-columns: repeat(3,1fr); margin-top:16px;">
+        <div class="panel"><div class="label">Le P + Nox</div><p class="t-body-sm">Le P glossy (bleu en haut, violet en bas, lame tranchante) loge Nox dans son œil. Symbolise capture + élevage + IA companion.</p></div>
+        <div class="panel"><div class="label">Fond transparent</div><p class="t-body-sm">PNG détourés : posables sur tout fond. Privilégier les fonds sombres (l'identité respire avec ses halos). Sur fond clair, utiliser <code>logo-mono.png</code>.</p></div>
+        <div class="panel"><div class="label">Zone de protection</div><p class="t-body-sm">Marge ≥ hauteur de l'œil de Nox tout autour. Ne jamais recolorer ni étirer le mark. Taille min. du mark seul : 40 px.</p></div>
+      </div>
+    </section>
+
+    <section id="nox">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Mascotte — Nox</h2>
+        <p>Esprit flottant cyan/violet : assistant IA, onboarding, états vides, tutoriels. Corps bleu nuit, yeux cyan lumineux, écharpe violette.</p></div>
+      <div class="grid" style="grid-template-columns: 320px 1fr;">
+        <div class="panel" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--grad-nox);min-height:240px;gap:14px;">
+          <img src="assets/nox-mascot.png" alt="Nox" style="width:170px;filter:drop-shadow(0 14px 30px rgba(0,0,0,0.5));">
+          <span class="badge" style="background:rgba(8,12,20,0.5);color:#fff;border:1px solid rgba(255,255,255,0.2)">Asset principal · face</span>
+        </div>
+        <div class="stack">
+          <div class="panel">
+            <div class="label">États d'expression — assets générés</div>
+            <div id="nox-states" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;"></div>
+            <p class="t-body-sm" style="margin-top:14px;">Le glow d'aura encode l'état : <b>cyan</b> idle, <b>vert</b> succès, <b>rouge</b> erreur, <b>violet</b> réflexion, <b>bleu</b> chargement. Déclinés depuis l'asset de référence.</p>
+          </div>
+          <div class="panel">
+            <div class="label">Prompt de génération réutilisable</div>
+            <div class="codeblk">A cute floating spirit mascot named Nox, glossy dark-navy
+rounded body, large glowing cyan eyes, purple scarf, small
+wisp flames on top, premium game-companion style, front view,
+isolated on transparent background, cyan-to-violet rim light.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="colors">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Couleurs</h2>
+        <p>Primary azur (Palworld), Secondary cyan, Accent violet (Betnox), neutres navy + sémantiques. Tokens complets dans la section dev.</p></div>
+      <div class="label">Primary — Palworld Blue</div><div class="scale" id="scale-primary"></div>
+      <div class="label" style="margin-top:24px;">Secondary — Cyan</div><div class="scale" id="scale-cyan"></div>
+      <div class="label" style="margin-top:24px;">Accent — Betnox Violet</div><div class="scale" id="scale-violet"></div>
+      <div class="label" style="margin-top:28px;">Neutres (surfaces &amp; texte)</div><div class="swatch-row" id="neutrals"></div>
+      <div class="label" style="margin-top:28px;">Sémantiques</div><div class="swatch-row" id="semantics"></div>
+      <div class="label" style="margin-top:28px;">Rareté (badges in-game)</div><div class="row" id="rarities"></div>
+    </section>
+
+    <section id="type">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Typographie</h2>
+        <p><b>Chakra Petch</b> (display, titres, chiffres, UI) + <b>Space Grotesk</b> (corps). <b>Rajdhani</b> pour les grands chiffres de stats.</p></div>
+      <div class="panel">
+        <div class="type-row"><div class="meta"><b>Display XL</b>40/44 · 700</div><div class="t-display-xl">Capturez-les tous</div></div>
+        <div class="type-row"><div class="meta"><b>H1</b>28/34 · 700</div><div class="t-h1">Breeding Calculator</div></div>
+        <div class="type-row"><div class="meta"><b>H2</b>24/30 · 600</div><div class="t-h2">Meilleure stratégie d'élevage</div></div>
+        <div class="type-row"><div class="meta"><b>Title</b>18/24 · 600</div><div class="t-title">Obtenir un Anubis parfait</div></div>
+        <div class="type-row"><div class="meta"><b>Body</b>15/22 · 400</div><div class="t-body">Suivez votre collection et atteignez 100 %. Optimisez vos lignées en un minimum de générations.</div></div>
+        <div class="type-row"><div class="meta"><b>Caption</b>12/16 · 500</div><div class="t-caption">112 / 180 Pals capturés</div></div>
+        <div class="type-row" style="border:none;"><div class="meta"><b>Overline</b>11 · 600 · 0.14em</div><div class="t-overline">Progression globale</div></div>
+      </div>
+      <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top:16px;">
+        <div class="panel"><div class="label">Chiffres de stats — Rajdhani</div><div style="display:flex;gap:28px;align-items:baseline;"><span class="t-stat" style="font-size:52px;">62%</span><span class="t-stat" style="font-size:52px;color:var(--cyan-300)">18/31</span></div></div>
+        <div class="panel"><div class="label">Règles</div><p class="t-body-sm">Min. 13px en UI mobile. Titres en Chakra Petch, jamais le corps. Tracking +0.14em sur overlines. Tabular-nums sur tous les compteurs.</p></div>
+      </div>
+    </section>
+
+    <section id="tokens">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Spacing &amp; Radius</h2>
+        <p>Échelle d'espacement base 4px. Rayons généreux pour un feel premium console.</p></div>
+      <div class="label">Spacing scale</div><div class="toks" id="spacing"></div>
+      <div class="label" style="margin-top:24px;">Border radius</div><div class="toks" id="radius"></div>
+    </section>
+
+    <section id="elevation">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Ombres &amp; Glows</h2>
+        <p>Ombres portées sombres pour la profondeur ; glows colorés pour l'actif, le focus et le premium.</p></div>
+      <div class="grid" id="elev" style="grid-template-columns: repeat(4,1fr);"></div>
+    </section>
+
+    <section id="gradients">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Gradients</h2>
+        <p>Le dégradé de marque (azur → violet) anime le logo, les boutons primaires et les accents. Le premium passe au doré.</p></div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:var(--grad-brand);min-height:120px;"><b>grad-brand</b><code>#2E8FE8 → #8B45E6</code></div>
+        <div class="swatch" style="background:var(--grad-cyan);min-height:120px;"><b>grad-cyan</b><code>#29D6E6 → #2E8FE8</code></div>
+        <div class="swatch" style="background:var(--grad-violet);min-height:120px;"><b>grad-violet</b><code>#A66EF0 → #7430C9</code></div>
+        <div class="swatch" style="background:var(--grad-premium);min-height:120px;color:#1a1206;"><b>grad-premium</b><code>#8B45E6 → #F5B638</code></div>
+        <div class="swatch" style="background:var(--grad-nox);min-height:120px;"><b>grad-nox</b><code>radial cyan→violet</code></div>
+        <div class="swatch" style="background:var(--grad-success);min-height:120px;"><b>grad-success</b><code>#4ADE9E → #1FA86B</code></div>
+      </div>
+    </section>
+
+    <section id="icons">
+      <div class="sec-head"><span class="kicker">Fondations</span><h2>Iconographie</h2>
+        <p>Set <b>Phosphor Icons</b> multi-poids (regular, bold, fill, duotone). Trait ~1.5px, coins arrondis. Actifs en fill/duotone, inactifs en regular.</p></div>
+      <div class="icons" id="iconset"></div>
+    </section>
+
+    <section id="buttons">
+      <div class="sec-head"><span class="kicker">Composants</span><h2>Boutons</h2>
+        <p>5 variantes × états. Primary en dégradé de marque, Premium en doré. Press = scale 0.985 + translateY.</p></div>
+      <div class="panel stack">
+        <div class="row">
+          <button class="btn btn-primary"><i class="ph-bold ph-lightning ic"></i> Primary</button>
+          <button class="btn btn-secondary"><i class="ph ph-bookmark-simple ic"></i> Secondary</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-danger"><i class="ph ph-trash ic"></i> Danger</button>
+          <button class="btn btn-premium"><i class="ph-fill ph-crown ic"></i> Passer Pro</button>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary btn-lg">Large</button>
+          <button class="btn btn-primary">Default</button>
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary is-loading">Loading</button>
+          <button class="btn btn-primary is-disabled">Disabled</button>
+          <button class="btn btn-icon btn-secondary"><i class="ph ph-heart"></i></button>
+          <button class="btn btn-icon btn-primary"><i class="ph-bold ph-plus"></i></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="cards">
+      <div class="sec-head"><span class="kicker">Composants</span><h2>Cartes</h2>
+        <p>Surface en dégradé subtil, bordure lumineuse, sheen supérieur. La carte Pal est l'atome central du produit.</p></div>
+      <div class="grid" style="grid-template-columns: repeat(3,1fr);">
+        <div class="card card-sheen card-hover card-pad">
+          <div class="row" style="justify-content:space-between;">
+            <span class="badge badge-legendary"><span class="dot"></span>Legendary</span>
+            <i class="ph ph-heart-straight" style="color:var(--text-3);font-size:18px;"></i>
+          </div>
+          <div style="height:96px;border-radius:14px;background:var(--grad-nox);margin:14px 0;display:flex;align-items:center;justify-content:center;">
+            <img src="assets/nox-mascot.png" style="height:80px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.4));">
+          </div>
+          <div class="t-title">Anubis</div>
+          <div class="row" style="margin-top:8px;">
+            <span class="chip-el" style="background:var(--warning-bg);color:var(--warning-400);"><i class="ph-fill ph-mountains"></i>Terre</span>
+            <span class="badge-soft badge">#042</span>
+          </div>
+        </div>
+        <div class="card card-sheen card-pad">
+          <div class="label">Stat card</div>
+          <div style="display:flex;align-items:baseline;gap:8px;"><span class="t-stat" style="font-size:40px;color:var(--cyan-300)">62%</span><span class="pill-success badge">+4%</span></div>
+          <div class="t-body-sm" style="margin:6px 0 12px;">Progression de la collection</div>
+          <div class="progress"><i style="width:62%"></i></div>
+        </div>
+        <div class="card card-sheen card-pad" style="background:var(--grad-premium);color:#1a1206;">
+          <i class="ph-fill ph-crown" style="font-size:26px;"></i>
+          <div class="t-h3" style="color:#1a1206;margin-top:10px;">PALNOX Pro</div>
+          <p style="font-size:13px;color:#3a2a08;margin:6px 0 14px;line-height:1.5;">Calculs illimités, cartes interactives, IA Nox avancée.</p>
+          <button class="btn btn-sm" style="background:#1a1206;color:#F5B638;">Débloquer</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="badges">
+      <div class="sec-head"><span class="kicker">Composants</span><h2>Badges &amp; Rareté</h2>
+        <p>Système de rareté aligné sur la palette de marque, du Commun au Boss. Plus les pills sémantiques et types d'éléments.</p></div>
+      <div class="panel stack">
+        <div><div class="label">Rareté</div><div class="row" id="rarity-badges"></div></div>
+        <div><div class="label">Sémantique</div><div class="row">
+          <span class="badge pill-success"><i class="ph-fill ph-check-circle"></i> Capturé</span>
+          <span class="badge pill-warning"><i class="ph-fill ph-warning"></i> En cours</span>
+          <span class="badge pill-error"><i class="ph-fill ph-x-circle"></i> Manquant</span>
+          <span class="badge pill-info"><i class="ph-fill ph-info"></i> Nouveau</span>
+        </div></div>
+        <div><div class="label">Types d'éléments</div><div class="row">
+          <span class="chip-el" style="background:var(--warning-bg);color:var(--warning-400);"><i class="ph-fill ph-mountains"></i>Terre</span>
+          <span class="chip-el" style="background:var(--error-bg);color:var(--error-400);"><i class="ph-fill ph-fire"></i>Feu</span>
+          <span class="chip-el" style="background:var(--info-bg);color:var(--primary-300);"><i class="ph-fill ph-drop"></i>Eau</span>
+          <span class="chip-el" style="background:rgba(31,195,212,0.14);color:var(--cyan-300);"><i class="ph-fill ph-lightning"></i>Foudre</span>
+          <span class="chip-el" style="background:var(--success-bg);color:var(--success-400);"><i class="ph-fill ph-leaf"></i>Herbe</span>
+          <span class="chip-el" style="background:var(--violet-bg,rgba(139,69,230,0.14));color:var(--violet-300);"><i class="ph-fill ph-moon-stars"></i>Ténèbres</span>
+        </div></div>
+      </div>
+    </section>
+
+    <section id="inputs">
+      <div class="sec-head"><span class="kicker">Composants</span><h2>Champs &amp; Filtres</h2>
+        <p>Saisie, recherche, chips de filtre, toggles, onglets. Focus = bordure bleue + halo.</p></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;">
+        <div class="panel stack">
+          <div class="field"><label class="field-label">Rechercher un Pal</label>
+            <div class="searchbar"><i class="ph ph-magnifying-glass"></i><input placeholder="Anubis, Jetragon…"><i class="ph ph-sliders-horizontal"></i></div></div>
+          <div class="field"><label class="field-label">Parent A</label><div class="select" style="display:flex;align-items:center;justify-content:space-between;"><span>Sélectionner…</span><i class="ph ph-caret-down" style="color:var(--text-3)"></i></div></div>
+          <div class="field"><label class="field-label">Nom de lignée</label><input class="input" value="Projet Anubis" /></div>
+        </div>
+        <div class="panel stack">
+          <div><div class="label">Filtres</div><div class="row">
+            <button class="fchip is-active">Tous</button>
+            <button class="fchip">Capturés</button>
+            <button class="fchip">Manquants</button>
+            <button class="fchip"><i class="ph ph-fire"></i>Feu</button>
+            <button class="fchip"><i class="ph ph-crown"></i>Alpha</button>
+          </div></div>
+          <div><div class="label">Onglets segmentés</div>
+            <div class="tabs"><button class="is-active">Stats</button><button>Élevage</button><button>Habitat</button></div></div>
+          <div class="row" style="justify-content:space-between;"><span class="t-body">Notifications d'élevage</span><div class="toggle on"></div></div>
+          <div class="row" style="justify-content:space-between;"><span class="t-body">Mode hors-ligne</span><div class="toggle"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nav">
+      <div class="sec-head"><span class="kicker">Composants</span><h2>Navigation</h2>
+        <p>Barre d'onglets inférieure (5 destinations, FAB central pour l'IA Nox), en-tête d'écran et onglets soulignés.</p></div>
+      <div class="grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="panel">
+          <div class="label">App bar</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;">
+            <button class="btn btn-icon btn-ghost"><i class="ph ph-arrow-left"></i></button>
+            <span class="t-title">Collection</span>
+            <button class="btn btn-icon btn-ghost"><i class="ph ph-funnel"></i></button>
+          </div>
+          <hr class="hr" style="margin:8px 0 14px;">
+          <div class="label">Onglets soulignés</div>
+          <div class="utabs"><button class="is-active">Tous</button><button>Capturés</button><button>Favoris</button><button>Alpha</button></div>
+        </div>
+        <div class="panel">
+          <div class="label">Bottom tab bar</div>
+          <div id="tabbar-demo"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens">
+      <div class="sec-head"><span class="kicker">Application</span><h2>Écrans haute-fidélité</h2>
+        <p>Les 8 écrans clés, prototypés en 390×844 (iPhone). Cliquez pour ouvrir en plein écran.</p></div>
+      <div class="screens-grid" id="screens-grid"></div>
+    </section>
+
+    <section id="dev">
+      <div class="sec-head"><span class="kicker">Application</span><h2>Specs développeur</h2>
+        <p>Tokens prêts à consommer. Cibles : <b>Tailwind + React Native (Expo)</b> et <b>Tailwind + Next.js</b>. Fichiers fournis dans le projet.</p></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr;">
+        <div class="panel"><div class="label">tailwind.config — extrait</div>
+          <div class="codeblk">theme: {
+  extend: {
+    colors: {
+      primary: { 500:'#2E8FE8', 600:'#1C74CC' },
+      cyan:    { 500:'#1FC3D4' },
+      violet:  { 500:'#8B45E6' },
+      rarity:  { legendary:'#F5B638', alpha:'#F2555A' }
+    },
+    fontFamily: {
+      display: ['Chakra Petch'],
+      body:    ['Space Grotesk']
+    },
+    borderRadius: { lg:'18px', xl:'24px' }
+  }
+}</div>
+        </div>
+        <div class="panel"><div class="label">tokens.json — extrait</div>
+          <div class="codeblk">{
+  "color": {
+    "primary":  "#2E8FE8",
+    "cyan":     "#1FC3D4",
+    "violet":   "#8B45E6",
+    "bg":       "#0A0F1B",
+    "surface":  "#131B2D"
+  },
+  "radius": { "card": 18, "pill": 999 },
+  "space":  { "1":4, "2":8, "4":16, "6":24 }
+}</div>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:16px;">
+        <div class="label">Fichiers du système</div>
+        <div class="row">
+          <span class="tag"><i class="ph ph-file-css"></i> colors_and_type.css</span>
+          <span class="tag"><i class="ph ph-file-css"></i> components.css</span>
+          <span class="tag"><i class="ph ph-brackets-curly"></i> tokens.json</span>
+          <span class="tag"><i class="ph ph-wind"></i> tailwind.config.js</span>
+          <span class="tag"><i class="ph ph-file-md"></i> README.md</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const root = getComputedStyle(document.documentElement);
+const V = n => root.getPropertyValue(n).trim();
+
+// Nox expression-state tiles (generated assets)
+const noxStates=[['idle','Idle','idle'],['happy','Heureux','happy'],['thinking','Réflexion','thinking'],['success','Succès','success'],['error','Erreur','error'],['loading','Chargement','loading']];
+const noxEl=document.getElementById('nox-states');
+if(noxEl){ noxEl.innerHTML = noxStates.map(([f,label])=>`
+  <div style="border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--surface-1);">
+    <img src="assets/nox-${f}.png" alt="Nox ${label}" style="width:100%;display:block;aspect-ratio:1;object-fit:cover;">
+    <div style="padding:7px 10px;font-family:var(--font-display);font-weight:600;font-size:11.5px;color:var(--text-2);">${label}</div>
+  </div>`).join(''); }
+
+function scale(id, prefix, steps){
+  const el = document.getElementById(id); if(!el) return;
+  el.innerHTML = steps.map(s=>{
+    const c = V(`--${prefix}-${s}`);
+    return `<div class="sw"><div class="chip" style="background:${c}"></div><div class="meta"><b>${s}</b><code>${c}</code></div></div>`;
+  }).join('');
+}
+scale('scale-primary','primary',[100,300,500,700,900]);
+scale('scale-cyan','cyan',[100,300,500,700,800]);
+scale('scale-violet','violet',[100,300,500,700,800]);
+
+const neutrals = [['--bg-0','bg-0'],['--bg-1','bg-1'],['--surface-1','surface-1'],['--surface-2','surface-2'],['--surface-3','surface-3'],['--text-1','text-1'],['--text-2','text-2'],['--text-3','text-3']];
+document.getElementById('neutrals').innerHTML = neutrals.map(([v,n])=>{
+  const c=V(v); const dark = n.startsWith('text');
+  return `<div class="swatch" style="background:${c};color:${dark?'#0A0F1B':'var(--text-1)'}"><b>${n}</b><code>${c}</code></div>`;
+}).join('');
+
+const sem = [['--success-500','success'],['--warning-500','warning'],['--error-500','error'],['--primary-500','info']];
+document.getElementById('semantics').innerHTML = sem.map(([v,n])=>{
+  const c=V(v); return `<div class="swatch" style="background:${c};color:#08101e"><b>${n}</b><code>${c}</code></div>`;
+}).join('');
+
+const rar = ['common','rare','epic','legendary','alpha','lucky','boss'];
+const rarLabels = {common:'Commun',rare:'Rare',epic:'Épique',legendary:'Legendary',alpha:'Alpha',lucky:'Lucky',boss:'Boss'};
+document.getElementById('rarities').innerHTML = rar.map(r=>`<span class="badge badge-${r}"><span class="dot"></span>${rarLabels[r]}</span>`).join('');
+document.getElementById('rarity-badges').innerHTML = document.getElementById('rarities').innerHTML;
+
+const spaces=[['1','4px'],['2','8px'],['3','12px'],['4','16px'],['6','24px'],['8','40px']];
+document.getElementById('spacing').innerHTML = spaces.map(([n,px])=>`<div class="tok"><div class="demo" style="height:${px};"></div><b>sp-${n}</b> <code>${px}</code></div>`).join('');
+const radii=[['sm','10px'],['md','14px'],['lg','18px'],['xl','24px'],['2xl','32px']];
+document.getElementById('radius').innerHTML = radii.map(([n,px])=>`<div class="tok"><div class="demo" style="height:48px;border-radius:${px};"></div><b>r-${n}</b> <code>${px}</code></div>`).join('');
+
+const elevs=[['shadow-2','var(--shadow-2)'],['shadow-3','var(--shadow-3)'],['shadow-4','var(--shadow-4)'],['glow-blue','var(--glow-blue)'],['glow-cyan','var(--glow-cyan)'],['glow-violet','var(--glow-violet)'],['glow-premium','var(--glow-premium)'],['focus-ring','var(--focus-ring)']];
+document.getElementById('elev').innerHTML = elevs.map(([n,sh])=>`<div class="panel" style="text-align:center;"><div style="height:60px;border-radius:14px;background:var(--surface-2);box-shadow:${sh};margin-bottom:12px;"></div><b class="t-caption">${n}</b></div>`).join('');
+
+const icons=['game-controller','egg','dna','target','crosshair','sparkle','crown','heart-straight','map-trifold','compass','flask','chart-line-up','trophy','ghost','lightning','fire','drop','leaf','mountains','snowflake','moon-stars','sword','shield','magnifying-glass','funnel','gear','bell','user','star','bookmark-simple','calculator','tree-structure'];
+document.getElementById('iconset').innerHTML = icons.map(i=>`<div class="ic-cell"><i class="ph-duotone ph-${i}"></i><span>${i}</span></div>`).join('');
+
+// tab bar demo
+const tabs=[['house','Accueil',true],['squares-four','Pals',false],['sparkle','Nox',false,true],['map-trifold','Carte',false],['user','Profil',false]];
+document.getElementById('tabbar-demo').innerHTML = `<div style="display:flex;align-items:flex-end;justify-content:space-around;background:var(--bg-base);border:1px solid var(--border);border-radius:20px;padding:10px 6px 8px;margin-top:6px;">`+
+tabs.map(([ic,lb,active,fab])=>{
+  if(fab) return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;transform:translateY(-14px);"><div style="width:54px;height:54px;border-radius:50%;background:var(--grad-brand);display:flex;align-items:center;justify-content:center;box-shadow:var(--glow-blue);"><i class="ph-fill ph-${ic}" style="font-size:24px;color:#fff;"></i></div><span style="font-size:10px;color:var(--cyan-300);font-family:var(--font-display);font-weight:600;">${lb}</span></div>`;
+  return `<div style="display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 10px;"><i class="ph${active?'-fill':''} ph-${ic}" style="font-size:22px;color:${active?'var(--primary-400)':'var(--text-3)'};"></i><span style="font-size:10px;color:${active?'var(--primary-300)':'var(--text-3)'};font-family:var(--font-display);font-weight:600;">${lb}</span></div>`;
+}).join('')+`</div>`;
+
+// screens gallery
+const screens=[
+  ['accueil','Accueil','Dashboard & progression'],
+  ['breeding','Breeding Calculator','Meilleure combinaison'],
+  ['optimizer','Trait Optimizer','Passifs parfaits'],
+  ['collection','Collection Tracker','Pals capturés'],
+  ['carte','Carte Interactive','Spawns & boss'],
+  ['nox','Assistant IA Nox','Chat companion'],
+  ['profil','Profil','Stats joueur'],
+  ['parametres','Paramètres','Préférences']
+];
+document.getElementById('screens-grid').innerHTML = screens.map((s,i)=>{
+  const n=String(i+1).padStart(2,'0');
+  return `<a class="scard" href="screens/${s[0]}.html" target="_blank"><div class="thumb"><img src="assets/thumbs/${s[0]}.jpg" alt="${s[1]}" loading="lazy"></div><div class="cap">${n} · ${s[1]}<span>${s[2]}</span></div></a>`;
+}).join('');
+</script>
+</body>
+</html>

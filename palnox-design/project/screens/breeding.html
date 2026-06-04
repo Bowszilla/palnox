@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Breeding</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .parents { display:flex; align-items:stretch; gap:10px; margin-top:6px; }
+  .parent { flex:1; border-radius:var(--r-lg); border:1px dashed var(--border-strong); background:var(--surface-1); padding:14px 12px; text-align:center; cursor:pointer; transition:all .18s; position:relative; }
+  .parent.filled { border-style:solid; background:var(--grad-surface); }
+  .parent .pimg { height:72px; display:flex; align-items:center; justify-content:center; }
+  .parent .pimg img { height:64px; filter:drop-shadow(0 6px 12px rgba(0,0,0,.4)); }
+  .parent .pname { font-family:var(--font-display); font-weight:600; font-size:14px; margin-top:6px; }
+  .parent .pel { font-size:11px; color:var(--text-3); margin-top:2px; }
+  .parent .plabel { font-size:11px; color:var(--text-3); font-family:var(--font-display); font-weight:600; letter-spacing:0.08em; text-transform:uppercase; }
+  .parent .add { width:44px; height:44px; border-radius:50%; background:var(--surface-3); display:flex; align-items:center; justify-content:center; margin:14px auto 8px; font-size:22px; color:var(--cyan-300); }
+  .vs { align-self:center; flex:none; width:38px; height:38px; border-radius:50%; background:var(--grad-brand); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:13px; color:#fff; box-shadow:var(--glow-blue); }
+
+  .result { margin-top:8px; padding:18px; border-radius:var(--r-xl); background:linear-gradient(150deg, rgba(46,143,232,0.16), rgba(139,69,230,0.12)); border:1px solid var(--border-glow); position:relative; overflow:hidden; }
+  .result::before{ content:""; position:absolute; right:-30px; top:-30px; width:140px; height:140px; background:radial-gradient(circle, rgba(245,182,56,0.22), transparent 70%); }
+  .result .top { display:flex; align-items:center; gap:14px; position:relative; }
+  .result .rimg { width:84px; height:84px; border-radius:18px; background:radial-gradient(circle at 50% 35%, rgba(245,182,56,0.3), transparent 70%); display:flex; align-items:center; justify-content:center; flex:none; border:1px solid var(--border); }
+  .result .rimg img { height:68px; filter:drop-shadow(0 6px 12px rgba(0,0,0,.4)); }
+  .result h2 { font-family:var(--font-display); font-weight:700; font-size:22px; margin:0; }
+  .result .meta { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
+
+  .detail { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; position:relative; }
+  .dcell { background:rgba(8,12,20,0.5); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; }
+  .dcell .k { font-size:11px; color:var(--text-3); font-family:var(--font-display); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; }
+  .dcell .v { font-family:var(--font-stat); font-weight:700; font-size:20px; margin-top:4px; display:flex; align-items:center; gap:6px; }
+
+  .paths { margin-top:6px; }
+  .pathrow { display:flex; align-items:center; gap:10px; padding:13px 14px; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); margin-bottom:8px; }
+  .pathrow .rank { width:26px; height:26px; border-radius:8px; background:var(--surface-3); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:13px; flex:none; }
+  .pathrow.best .rank { background:var(--grad-premium); color:#1a1206; }
+  .pathrow .combo { flex:1; font-size:13px; }
+  .pathrow .combo b { font-family:var(--font-display); font-weight:600; }
+  .pathrow .gens { font-family:var(--font-stat); font-weight:700; font-size:15px; color:var(--cyan-300); }
+  .pathrow .gens span { font-size:10px; color:var(--text-3); font-family:var(--font-display); display:block; text-align:right; }
+</style>
+</head>
+<body data-tab="">
+<div class="phone">
+  <header class="appbar">
+    <div>
+      <div class="title">Breeding</div>
+      <div class="sub">Calculateur de lignée optimale</div>
+    </div>
+    <div class="actions"><div class="iconbtn"><i class="ph ph-clock-counter-clockwise"></i></div><div class="iconbtn"><i class="ph ph-bookmark-simple"></i></div></div>
+  </header>
+  <main class="screen-body">
+    <div class="parents">
+      <div class="parent filled">
+        <div class="plabel">Parent A</div>
+        <div class="pimg"><img src="../assets/nox-mascot.png"></div>
+        <div class="pname">Anubis</div>
+        <div class="pel">Terre · #042</div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="parent filled">
+        <div class="plabel">Parent B</div>
+        <div class="pimg"><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,.4)) hue-rotate(140deg)"></div>
+        <div class="pname">Jetragon</div>
+        <div class="pel">Foudre · #111</div>
+      </div>
+    </div>
+
+    <div class="sec-title"><h3>Descendant prédit</h3><a href="#"><i class="ph ph-arrows-clockwise"></i> Inverser</a></div>
+    <div class="result">
+      <div class="top">
+        <div class="rimg"><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,.4)) hue-rotate(30deg)"></div>
+        <div>
+          <h2>Astegon</h2>
+          <div class="meta">
+            <span class="badge badge-legendary"><span class="dot"></span>Legendary</span>
+            <span class="chip-el" style="background:rgba(139,69,230,0.16);color:var(--violet-300);font-size:11px;height:22px;"><i class="ph-fill ph-moon-stars"></i>Ténèbres</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail">
+        <div class="dcell"><div class="k">Index Paldex</div><div class="v">#095</div></div>
+        <div class="dcell"><div class="k">Power base</div><div class="v" style="color:var(--cyan-300)">1480</div></div>
+        <div class="dcell"><div class="k">Probabilité</div><div class="v" style="color:var(--success-400)">86%</div></div>
+        <div class="dcell"><div class="k">Générations</div><div class="v">2 <span style="font-size:11px;color:var(--text-3);font-weight:400;font-family:var(--font-body)">min.</span></div></div>
+      </div>
+    </div>
+
+    <div class="sec-title"><h3>Meilleurs chemins</h3><a href="#">3 trouvés</a></div>
+    <div class="paths">
+      <div class="pathrow best">
+        <div class="rank"><i class="ph-fill ph-crown" style="font-size:14px;"></i></div>
+        <div class="combo"><b>Anubis × Jetragon</b><br><span style="color:var(--text-3)">→ Astegon · directe</span></div>
+        <div class="gens">2 gén.<span>le + rapide</span></div>
+      </div>
+      <div class="pathrow">
+        <div class="rank">2</div>
+        <div class="combo"><b>Anubis × Relaxaurus</b><br><span style="color:var(--text-3)">→ Mau → Astegon</span></div>
+        <div class="gens">3 gén.<span>équilibré</span></div>
+      </div>
+      <div class="pathrow">
+        <div class="rank">3</div>
+        <div class="combo"><b>Jetragon × Frostallion</b><br><span style="color:var(--text-3)">→ Blazamut → Astegon</span></div>
+        <div class="gens">4 gén.<span>traits rares</span></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px;"><i class="ph-bold ph-git-branch ic"></i> Lancer le plan d'élevage</button>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>PALNOX.chrome();</script>
+</body>
+</html>

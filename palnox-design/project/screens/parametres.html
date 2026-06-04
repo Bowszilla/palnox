@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Paramètres</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .grp-label { font-family:var(--font-display); font-weight:600; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-3); margin:22px 4px 10px; }
+  .set-group { border-radius:var(--r-lg); background:var(--grad-surface); border:1px solid var(--border); overflow:hidden; }
+  .set { display:flex; align-items:center; gap:13px; padding:14px 16px; }
+  .set:not(:last-child){ border-bottom:1px solid var(--border); }
+  .set .si { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex:none; }
+  .set .st { flex:1; } .set .st b { font-family:var(--font-display); font-weight:600; font-size:14px; display:block; }
+  .set .st span { font-size:11.5px; color:var(--text-3); }
+  .set .sv { font-size:13px; color:var(--text-3); display:flex; align-items:center; gap:6px; }
+  .set .caret { color:var(--text-4); font-size:16px; }
+
+  .pro-banner { margin-top:6px; padding:18px; border-radius:var(--r-xl); background:var(--grad-premium); color:#1a1206; position:relative; overflow:hidden; display:flex; align-items:center; gap:14px; }
+  .pro-banner img { height:64px; flex:none; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.3)); }
+  .pro-banner h3 { font-family:var(--font-display); font-weight:700; font-size:17px; margin:0; }
+  .pro-banner p { font-size:12px; color:#3a2a08; margin:4px 0 0; line-height:1.4; }
+  .pro-banner .go { margin-left:auto; width:38px; height:38px; border-radius:50%; background:#1a1206; color:#F5B638; display:flex; align-items:center; justify-content:center; flex:none; font-size:18px; }
+
+  .seg { display:flex; gap:3px; background:var(--bg-1); padding:3px; border-radius:10px; }
+  .seg button { border:none; background:none; color:var(--text-3); font-family:var(--font-display); font-weight:600; font-size:12px; padding:6px 12px; border-radius:7px; cursor:pointer; }
+  .seg button.on { background:var(--surface-3); color:var(--text-1); }
+</style>
+</head>
+<body data-tab="profil">
+<div class="phone">
+  <header class="appbar">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="iconbtn" style="background:transparent;border:none;"><a href="profil.html" style="color:inherit;display:flex;"><i class="ph ph-arrow-left"></i></a></div>
+      <div class="title" style="font-size:20px;">Paramètres</div>
+    </div>
+  </header>
+  <main class="screen-body">
+    <div class="pro-banner">
+      <img src="../assets/nox-mascot.png">
+      <div><h3>PALNOX Pro est actif</h3><p>Calculs illimités · cartes · IA avancée. Renouvellement le 14 mars.</p></div>
+      <div class="go"><i class="ph-bold ph-arrow-right"></i></div>
+    </div>
+
+    <div class="grp-label">Préférences de jeu</div>
+    <div class="set-group">
+      <div class="set"><div class="si" style="background:var(--info-bg);color:var(--primary-300)"><i class="ph-fill ph-translate"></i></div><div class="st"><b>Langue</b></div><div class="sv">Français <i class="ph ph-caret-right caret"></i></div></div>
+      <div class="set"><div class="si" style="background:rgba(31,195,212,0.14);color:var(--cyan-300)"><i class="ph-fill ph-globe-hemisphere-west"></i></div><div class="st"><b>Version du jeu</b><span>Patch & DLC suivis</span></div><div class="sv">v3.2 <i class="ph ph-caret-right caret"></i></div></div>
+      <div class="set"><div class="si" style="background:rgba(139,69,230,0.14);color:var(--violet-300)"><i class="ph-fill ph-sliders-horizontal"></i></div><div class="st"><b>Unités de stats</b></div>
+        <div class="seg"><button>Brut</button><button class="on">%</button></div></div>
+    </div>
+
+    <div class="grp-label">Notifications</div>
+    <div class="set-group">
+      <div class="set"><div class="si" style="background:var(--success-bg);color:var(--success-400)"><i class="ph-fill ph-egg"></i></div><div class="st"><b>Éclosion d'œufs</b><span>Alerte quand une lignée est prête</span></div><div class="toggle on"></div></div>
+      <div class="set"><div class="si" style="background:var(--warning-bg);color:var(--warning-400)"><i class="ph-fill ph-flame"></i></div><div class="st"><b>Rappel de série</b><span>Ne casse pas ta série de captures</span></div><div class="toggle on"></div></div>
+      <div class="set"><div class="si" style="background:var(--error-bg);color:var(--error-400)"><i class="ph-fill ph-crown"></i></div><div class="st"><b>Apparition de boss</b><span>Événements de raid en temps réel</span></div><div class="toggle"></div></div>
+    </div>
+
+    <div class="grp-label">Assistant Nox</div>
+    <div class="set-group">
+      <div class="set"><div class="si" style="background:var(--grad-nox);"><i class="ph-fill ph-sparkle" style="color:#fff"></i></div><div class="st"><b>Conseils proactifs</b><span>Nox suggère des actions d'élevage</span></div><div class="toggle on"></div></div>
+      <div class="set"><div class="si" style="background:var(--surface-3);color:var(--text-2)"><i class="ph-fill ph-microphone"></i></div><div class="st"><b>Réponses vocales</b></div><div class="toggle"></div></div>
+    </div>
+
+    <div class="grp-label">Compte</div>
+    <div class="set-group">
+      <div class="set"><div class="si" style="background:var(--surface-3);color:var(--text-2)"><i class="ph-fill ph-cloud-arrow-up"></i></div><div class="st"><b>Sauvegarde cloud</b><span>Dernière : aujourd'hui 09:12</span></div><i class="ph ph-caret-right caret"></i></div>
+      <div class="set"><div class="si" style="background:var(--surface-3);color:var(--text-2)"><i class="ph-fill ph-shield-check"></i></div><div class="st"><b>Confidentialité</b></div><i class="ph ph-caret-right caret"></i></div>
+      <div class="set"><div class="si" style="background:var(--error-bg);color:var(--error-400)"><i class="ph-fill ph-sign-out"></i></div><div class="st"><b style="color:var(--error-400)">Déconnexion</b></div></div>
+    </div>
+
+    <div style="text-align:center;margin-top:22px;color:var(--text-4);font-size:11.5px;font-family:var(--font-display);">PALNOX v1.0.0 · Companion non officiel</div>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>PALNOX.chrome();</script>
+</body>
+</html>

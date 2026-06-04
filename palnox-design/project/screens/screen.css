@@ -1,0 +1,61 @@
+/* ============================================================
+   PALNOX — Screen shell (mobile 390×844)
+   Used by all hi-fi screens. Requires ../colors_and_type.css
+   and ../components.css.
+   ============================================================ */
+html, body { margin:0; padding:0; }
+body {
+  width: 390px; min-height: 844px;
+  margin: 0 auto;
+  background: var(--bg-0);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+.phone { width:390px; min-height:844px; position:relative; background:
+   radial-gradient(90% 60% at 50% -10%, rgba(46,143,232,0.14), transparent 60%),
+   var(--bg-0);
+   display:flex; flex-direction:column; }
+
+/* status bar */
+.statusbar { height: 50px; display:flex; align-items:flex-end; justify-content:space-between; padding: 0 24px 8px; font-family: var(--font-display); font-weight:600; font-size:14px; color: var(--text-1); position:relative; z-index:5; }
+.statusbar .ic { display:flex; gap:6px; align-items:center; font-size:15px; }
+
+/* app header */
+.appbar { display:flex; align-items:center; justify-content:space-between; padding: 6px 20px 14px; position:relative; z-index:4; }
+.appbar .title { font-family: var(--font-display); font-weight:700; font-size:22px; letter-spacing:-0.01em; }
+.appbar .sub { font-size:12px; color: var(--text-3); margin-top:2px; }
+.appbar .actions { display:flex; gap:8px; }
+.iconbtn { width:42px; height:42px; border-radius:13px; background: var(--surface-2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color: var(--text-2); font-size:19px; cursor:pointer; transition: all .15s; flex:none; }
+.iconbtn:hover { color: var(--text-1); border-color: var(--border-strong); }
+
+/* scroll body */
+.screen-body { flex:1; padding: 4px 20px 110px; overflow-y:auto; position:relative; z-index:3; }
+.screen-body::-webkit-scrollbar { width:0; }
+
+/* bottom tab bar */
+.tabbar { position: sticky; bottom: 0; left:0; right:0; display:flex; align-items:flex-end; justify-content:space-around; background: rgba(6,10,18,0.86); backdrop-filter: blur(16px); border-top:1px solid var(--border); padding: 10px 6px calc(10px + env(safe-area-inset-bottom)); z-index:10; }
+.tabbar .tab { display:flex; flex-direction:column; align-items:center; gap:4px; padding:4px 12px; cursor:pointer; text-decoration:none; }
+.tabbar .tab i { font-size:23px; color: var(--text-3); transition: color .15s; }
+.tabbar .tab span { font-size:10px; font-family: var(--font-display); font-weight:600; color: var(--text-3); }
+.tabbar .tab.active i { color: var(--primary-400); }
+.tabbar .tab.active span { color: var(--primary-300); }
+.tabbar .fab { transform: translateY(-16px); }
+.tabbar .fab .orb { width:56px; height:56px; border-radius:50%; background: var(--grad-brand); display:flex; align-items:center; justify-content:center; box-shadow: var(--glow-blue); border:2px solid rgba(255,255,255,0.12); }
+.tabbar .fab .orb i { color:#fff; font-size:26px; }
+.tabbar .fab span { color: var(--cyan-300); margin-top:4px; }
+
+/* common bits */
+.sec-title { display:flex; align-items:center; justify-content:space-between; margin: 22px 0 12px; }
+.sec-title h3 { font-family: var(--font-display); font-weight:700; font-size:17px; margin:0; }
+.sec-title a { font-size:12px; color: var(--cyan-300); text-decoration:none; font-family:var(--font-display); font-weight:600; display:flex; align-items:center; gap:3px; }
+.float-nox { position:absolute; pointer-events:none; }
+.glass { background: rgba(19,27,45,0.7); backdrop-filter: blur(10px); }
+
+/* progress ring */
+.ring { transform: rotate(-90deg); }
+.ring circle { fill:none; stroke-width:9; }
+.ring .bg { stroke: var(--surface-3); }
+.ring .fg { stroke: url(#ringgrad); stroke-linecap:round; transition: stroke-dashoffset 1s var(--ease-out); }

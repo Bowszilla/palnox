@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Profil</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .pf-hero { position:relative; padding:18px; border-radius:var(--r-xl); background:linear-gradient(150deg, rgba(139,69,230,0.22), rgba(46,143,232,0.14)); border:1px solid var(--border-strong); overflow:hidden; text-align:center; }
+  .pf-hero::before{content:"";position:absolute;right:-30px;top:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(245,182,56,0.18),transparent 70%);}
+  .pf-av { width:84px; height:84px; border-radius:26px; background:var(--grad-violet); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; box-shadow:var(--glow-violet); border:2px solid rgba(255,255,255,0.16); position:relative; }
+  .pf-av b { font-family:var(--font-display); font-weight:700; font-size:34px; color:#fff; }
+  .pf-av .lvl { position:absolute; bottom:-6px; right:-6px; height:26px; padding:0 9px; border-radius:99px; background:var(--grad-premium); color:#1a1206; font-family:var(--font-display); font-weight:700; font-size:12px; display:flex; align-items:center; border:2px solid var(--bg-0); }
+  .pf-hero h2 { font-family:var(--font-display); font-weight:700; font-size:22px; margin:0; }
+  .pf-hero .handle { font-size:13px; color:var(--text-2); margin-top:3px; }
+  .pf-hero .pro { display:inline-flex; align-items:center; gap:6px; margin-top:10px; padding:5px 12px; border-radius:99px; background:var(--grad-premium); color:#1a1206; font-family:var(--font-display); font-weight:700; font-size:12px; }
+
+  .pf-stats { display:flex; gap:10px; margin-top:14px; }
+  .pf-stats .s { flex:1; padding:14px 8px; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); text-align:center; }
+  .pf-stats .s b { font-family:var(--font-stat); font-weight:700; font-size:22px; display:block; }
+  .pf-stats .s span { font-size:10.5px; color:var(--text-3); font-family:var(--font-display); font-weight:600; letter-spacing:0.04em; text-transform:uppercase; }
+
+  .ach { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .ach .a { aspect-ratio:1; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; position:relative; }
+  .ach .a i { font-size:26px; }
+  .ach .a span { font-size:9px; color:var(--text-3); font-family:var(--font-display); font-weight:600; }
+  .ach .a.lock { opacity:0.45; } .ach .a.lock i { color:var(--text-4); }
+
+  .row-item { display:flex; align-items:center; gap:13px; padding:14px 16px; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); margin-bottom:9px; }
+  .row-item .ri { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none; }
+  .row-item .rt { flex:1; } .row-item .rt b { font-family:var(--font-display); font-weight:600; font-size:14px; display:block; } .row-item .rt span { font-size:11.5px; color:var(--text-3); }
+  .row-item .rv { font-family:var(--font-stat); font-weight:700; font-size:15px; color:var(--cyan-300); }
+</style>
+</head>
+<body data-tab="profil">
+<div class="phone">
+  <header class="appbar">
+    <div><div class="title">Profil</div></div>
+    <div class="actions"><div class="iconbtn"><i class="ph ph-share-network"></i></div><div class="iconbtn"><a href="parametres.html" style="color:inherit;display:flex;"><i class="ph ph-gear-six"></i></a></div></div>
+  </header>
+  <main class="screen-body">
+    <div class="pf-hero">
+      <div class="pf-av"><b>K</b><span class="lvl">Niv. 48</span></div>
+      <h2>Kael Voss</h2>
+      <div class="handle">@kael_dresseur · membre depuis 2024</div>
+      <div class="pro"><i class="ph-fill ph-crown"></i> PALNOX PRO</div>
+    </div>
+
+    <div class="pf-stats">
+      <div class="s"><b style="color:var(--cyan-300)">112</b><span>Capturés</span></div>
+      <div class="s"><b style="color:var(--rarity-legendary)">9</b><span>Alpha</span></div>
+      <div class="s"><b style="color:var(--violet-300)">28</b><span>Lignées</span></div>
+      <div class="s"><b style="color:var(--warning-400)">7</b><span>Série</span></div>
+    </div>
+
+    <div class="sec-title"><h3>Succès</h3><a href="#">12 / 40</a></div>
+    <div class="ach">
+      <div class="a"><i class="ph-fill ph-trophy" style="color:var(--rarity-legendary)"></i><span>1er Alpha</span></div>
+      <div class="a"><i class="ph-fill ph-dna" style="color:var(--violet-300)"></i><span>Éleveur</span></div>
+      <div class="a"><i class="ph-fill ph-flame" style="color:var(--warning-400)"></i><span>Série 7j</span></div>
+      <div class="a"><i class="ph-fill ph-medal" style="color:var(--cyan-300)"></i><span>Top 5%</span></div>
+      <div class="a"><i class="ph-fill ph-target" style="color:var(--success-400)"></i><span>100 capt.</span></div>
+      <div class="a lock"><i class="ph-fill ph-lock-simple"></i><span>Paldex</span></div>
+      <div class="a lock"><i class="ph-fill ph-lock-simple"></i><span>Boss×10</span></div>
+      <div class="a lock"><i class="ph-fill ph-lock-simple"></i><span>Légende</span></div>
+    </div>
+
+    <div class="sec-title"><h3>Activité</h3></div>
+    <div class="row-item">
+      <div class="ri" style="background:var(--info-bg);color:var(--primary-300)"><i class="ph-fill ph-paw-print"></i></div>
+      <div class="rt"><b>Dernière capture</b><span>Anubis (Legendary) · il y a 2 h</span></div>
+      <i class="ph ph-caret-right" style="color:var(--text-4)"></i>
+    </div>
+    <div class="row-item">
+      <div class="ri" style="background:rgba(139,69,230,0.14);color:var(--violet-300)"><i class="ph-fill ph-dna"></i></div>
+      <div class="rt"><b>Lignées actives</b><span>4 en cours · 1 prête à éclore</span></div>
+      <div class="rv">4</div>
+    </div>
+    <div class="row-item">
+      <div class="ri" style="background:var(--success-bg);color:var(--success-400)"><i class="ph-fill ph-chart-line-up"></i></div>
+      <div class="rt"><b>Classement hebdo</b><span>Région Nord-Ouest</span></div>
+      <div class="rv" style="color:var(--rarity-legendary)">#142</div>
+    </div>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>PALNOX.chrome();</script>
+</body>
+</html>

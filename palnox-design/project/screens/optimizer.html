@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Trait Optimizer</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .target-card { padding:16px; border-radius:var(--r-lg); background:var(--grad-surface); border:1px solid var(--border); display:flex; align-items:center; gap:14px; }
+  .target-card .ti { width:60px; height:60px; border-radius:16px; background:var(--grad-nox); display:flex; align-items:center; justify-content:center; flex:none; }
+  .target-card .ti img { height:48px; filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)); }
+  .target-card h3 { font-family:var(--font-display); font-weight:700; font-size:18px; margin:0; }
+  .target-card p { font-size:12px; color:var(--text-3); margin:4px 0 0; }
+  .target-card .edit { margin-left:auto; }
+
+  .score-card { margin-top:14px; padding:18px; border-radius:var(--r-xl); background:linear-gradient(150deg,#13233e,#101829); border:1px solid var(--border-strong); display:flex; align-items:center; gap:18px; position:relative; overflow:hidden;}
+  .score-card::before{content:"";position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;background:radial-gradient(circle,rgba(47,203,133,0.22),transparent 70%);}
+  .score-ring { position:relative; width:96px; height:96px; flex:none; }
+  .score-ring .lbl { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-ring .lbl b { font-family:var(--font-stat); font-weight:700; font-size:26px; line-height:1; color:var(--success-400); }
+  .score-ring .lbl span { font-size:9px; color:var(--text-3); letter-spacing:0.1em; font-family:var(--font-display); font-weight:600; }
+  .score-card .info b { font-family:var(--font-display); font-weight:700; font-size:16px; }
+  .score-card .info p { font-size:12px; color:var(--text-2); margin:5px 0 0; line-height:1.45; }
+
+  .traitslot { display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); margin-bottom:9px; transition:all .18s; }
+  .traitslot.sel { border-color:var(--success-500); background:linear-gradient(135deg, rgba(47,203,133,0.12), transparent); }
+  .traitslot .tic { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex:none; }
+  .traitslot .tname { flex:1; }
+  .traitslot .tname b { font-family:var(--font-display); font-weight:600; font-size:14px; display:block; }
+  .traitslot .tname span { font-size:11.5px; color:var(--text-3); }
+  .traitslot .tier { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; font-size:13px; flex:none; }
+  .tier-s { background:var(--grad-premium); color:#1a1206; }
+  .tier-a { background:rgba(139,69,230,0.18); color:var(--violet-300); }
+  .tier-b { background:rgba(46,143,232,0.16); color:var(--primary-300); }
+  .check { width:24px; height:24px; border-radius:50%; border:2px solid var(--border-strong); flex:none; display:flex; align-items:center; justify-content:center; }
+  .check.on { background:var(--success-500); border-color:var(--success-500); color:#06210f; }
+
+  .bar { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .bar .bl { width:74px; font-size:12px; color:var(--text-2); font-family:var(--font-display); font-weight:600; }
+  .bar .track { flex:1; height:8px; border-radius:99px; background:var(--surface-3); overflow:hidden; }
+  .bar .track i { display:block; height:100%; border-radius:99px; }
+  .bar .bv { width:34px; text-align:right; font-family:var(--font-stat); font-weight:700; font-size:13px; }
+</style>
+</head>
+<body data-tab="">
+<div class="phone">
+  <header class="appbar">
+    <div><div class="title">Trait Optimizer</div><div class="sub">Combinaison de passifs parfaite</div></div>
+    <div class="actions"><div class="iconbtn"><i class="ph ph-question"></i></div></div>
+  </header>
+  <main class="screen-body">
+    <div class="target-card">
+      <div class="ti"><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)) hue-rotate(30deg)"></div>
+      <div><h3>Astegon</h3><p>Cible · build Attaque/Travail</p></div>
+      <div class="iconbtn edit"><i class="ph ph-pencil-simple"></i></div>
+    </div>
+
+    <div class="score-card">
+      <div class="score-ring">
+        <svg class="ring" width="96" height="96" viewBox="0 0 96 96"><circle class="bg" cx="48" cy="48" r="40"></circle><circle class="fg" cx="48" cy="48" r="40" id="tr"></circle></svg>
+        <div class="lbl"><b>S+</b><span>BUILD</span></div>
+      </div>
+      <div class="info"><b>Build optimal trouvé</b><p>4 passifs « S-tier ». +38 % de puissance d'attaque vs. build de base.</p></div>
+    </div>
+
+    <div class="sec-title"><h3>Passifs recommandés</h3><a href="#">4/4</a></div>
+    <div class="traitslot sel">
+      <div class="tic" style="background:var(--error-bg);color:var(--error-400)"><i class="ph-fill ph-sword"></i></div>
+      <div class="tname"><b>Seigneur de la destruction</b><span>+30 % dégâts d'attaque</span></div>
+      <div class="tier tier-s">S</div><div class="check on"><i class="ph-bold ph-check" style="font-size:13px;"></i></div>
+    </div>
+    <div class="traitslot sel">
+      <div class="tic" style="background:var(--warning-bg);color:var(--warning-400)"><i class="ph-fill ph-lightning"></i></div>
+      <div class="tname"><b>Berserker</b><span>+20 % attaque, −10 % défense</span></div>
+      <div class="tier tier-s">S</div><div class="check on"><i class="ph-bold ph-check" style="font-size:13px;"></i></div>
+    </div>
+    <div class="traitslot sel">
+      <div class="tic" style="background:rgba(31,195,212,0.14);color:var(--cyan-300)"><i class="ph-fill ph-wind"></i></div>
+      <div class="tname"><b>Athlétique</b><span>+15 % vitesse de déplacement</span></div>
+      <div class="tier tier-a">A</div><div class="check on"><i class="ph-bold ph-check" style="font-size:13px;"></i></div>
+    </div>
+    <div class="traitslot">
+      <div class="tic" style="background:var(--success-bg);color:var(--success-400)"><i class="ph-fill ph-heart"></i></div>
+      <div class="tname"><b>Vigoureux</b><span>+20 % PV max</span></div>
+      <div class="tier tier-b">B</div><div class="check"></div>
+    </div>
+
+    <div class="sec-title"><h3>Stats projetées</h3></div>
+    <div class="card card-pad">
+      <div class="bar"><span class="bl">Attaque</span><span class="track"><i style="width:92%;background:var(--grad-cyan)"></i></span><span class="bv" style="color:var(--cyan-300)">920</span></div>
+      <div class="bar"><span class="bl">Défense</span><span class="track"><i style="width:58%;background:var(--grad-violet)"></i></span><span class="bv">540</span></div>
+      <div class="bar"><span class="bl">Vitesse</span><span class="track"><i style="width:74%;background:var(--grad-success)"></i></span><span class="bv" style="color:var(--success-400)">680</span></div>
+      <div class="bar" style="margin-bottom:0;"><span class="bl">Travail</span><span class="track"><i style="width:81%;background:linear-gradient(90deg,#F5B638,#F5A524)"></i></span><span class="bv" style="color:var(--warning-400)">7×</span></div>
+    </div>
+
+    <button class="btn btn-premium btn-block btn-lg" style="margin-top:18px;"><i class="ph-fill ph-crown ic"></i> Exporter le build (Pro)</button>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>
+  PALNOX.chrome();
+  document.querySelector('.phone').insertAdjacentHTML('beforeend', PALNOX.ringGrad());
+  const r=40,c=2*Math.PI*r,ring=document.getElementById('tr');
+  ring.style.strokeDasharray=c; ring.style.strokeDashoffset=c;
+  setTimeout(()=>ring.style.strokeDashoffset=c*0.06,250);
+</script>
+</body>
+</html>

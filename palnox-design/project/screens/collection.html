@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Collection</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .colstats { display:flex; gap:10px; margin-top:4px; }
+  .cs { flex:1; padding:12px; border-radius:var(--r-md); background:var(--grad-surface); border:1px solid var(--border); text-align:center; }
+  .cs b { font-family:var(--font-stat); font-weight:700; font-size:22px; display:block; }
+  .cs span { font-size:10.5px; color:var(--text-3); font-family:var(--font-display); font-weight:600; letter-spacing:0.04em; text-transform:uppercase; }
+  .filters { display:flex; gap:8px; overflow-x:auto; margin:14px -20px 0; padding:0 20px 4px; }
+  .filters::-webkit-scrollbar{height:0;}
+  .filters .fchip { flex:none; }
+  .pgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px; }
+  .pcard { border-radius:var(--r-md); overflow:hidden; background:var(--grad-surface); border:1px solid var(--border); position:relative; cursor:pointer; transition:all .18s; }
+  .pcard:hover { transform:translateY(-3px); border-color:var(--border-glow); }
+  .pcard.locked { opacity:0.5; }
+  .pcard .pi { height:78px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .pcard .pi img { height:60px; filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)); }
+  .pcard.locked .pi img { filter:brightness(0) invert(0.22); }
+  .pcard .rdot { position:absolute; top:6px; right:6px; width:9px; height:9px; border-radius:50%; }
+  .pcard .num { position:absolute; top:6px; left:7px; font-family:var(--font-display); font-weight:700; font-size:10px; color:var(--text-4); }
+  .pcard .pm { padding:7px 9px 9px; border-top:1px solid var(--border); }
+  .pcard .pm b { font-family:var(--font-display); font-weight:600; font-size:12px; display:block; }
+  .pcard .pm span { font-size:10px; color:var(--text-3); }
+  .pcard .lock { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--text-4); }
+</style>
+</head>
+<body data-tab="collection">
+<div class="phone">
+  <header class="appbar">
+    <div><div class="title">Collection</div><div class="sub">Paldex · 112 / 180</div></div>
+    <div class="actions"><div class="iconbtn"><i class="ph ph-magnifying-glass"></i></div><div class="iconbtn"><i class="ph ph-funnel"></i></div></div>
+  </header>
+  <main class="screen-body">
+    <div class="colstats">
+      <div class="cs"><b style="color:var(--cyan-300)">112</b><span>Capturés</span></div>
+      <div class="cs"><b style="color:var(--rarity-legendary)">9</b><span>Alpha</span></div>
+      <div class="cs"><b style="color:var(--text-4)">68</b><span>Manquants</span></div>
+      <div class="cs"><b style="color:var(--success-400)">62%</b><span>Complet</span></div>
+    </div>
+
+    <div class="filters">
+      <button class="fchip is-active">Tous</button>
+      <button class="fchip">Capturés</button>
+      <button class="fchip">Manquants</button>
+      <button class="fchip"><i class="ph ph-crown"></i>Alpha</button>
+      <button class="fchip"><i class="ph ph-fire"></i>Feu</button>
+      <button class="fchip"><i class="ph ph-drop"></i>Eau</button>
+    </div>
+
+    <div class="pgrid">
+      <div class="pcard"><div class="pi"><span class="num">042</span><span class="rdot" style="background:var(--rarity-legendary)"></span><img src="../assets/nox-mascot.png"></div><div class="pm"><b>Anubis</b><span>Terre</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">111</span><span class="rdot" style="background:var(--rarity-alpha)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(140deg)"></div><div class="pm"><b>Jetragon</b><span>Foudre</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">089</span><span class="rdot" style="background:var(--rarity-lucky)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(60deg)"></div><div class="pm"><b>Frostallion</b><span>Glace</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">095</span><span class="rdot" style="background:var(--rarity-epic)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(30deg)"></div><div class="pm"><b>Astegon</b><span>Ténèbres</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">003</span><span class="rdot" style="background:var(--rarity-rare)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(200deg)"></div><div class="pm"><b>Relaxaurus</b><span>Dragon</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">051</span><span class="rdot" style="background:var(--rarity-common)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(90deg)"></div><div class="pm"><b>Lamball</b><span>Neutre</span></div></div>
+      <div class="pcard locked"><div class="pi"><span class="num">120</span><img src="../assets/nox-mascot.png"><div class="lock"><i class="ph-fill ph-lock-simple"></i></div></div><div class="pm"><b>? ? ?</b><span>Inconnu</span></div></div>
+      <div class="pcard locked"><div class="pi"><span class="num">121</span><img src="../assets/nox-mascot.png"><div class="lock"><i class="ph-fill ph-lock-simple"></i></div></div><div class="pm"><b>? ? ?</b><span>Inconnu</span></div></div>
+      <div class="pcard"><div class="pi"><span class="num">077</span><span class="rdot" style="background:var(--rarity-boss)"></span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 5px 10px rgba(0,0,0,.4)) hue-rotate(280deg)"></div><div class="pm"><b>Blazamut</b><span>Feu</span></div></div>
+    </div>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>PALNOX.chrome();</script>
+</body>
+</html>

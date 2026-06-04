@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Accueil</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<style>
+  .hello { display:flex; align-items:center; justify-content:space-between; }
+  .hello .greet .k { font-size:13px; color:var(--text-3); font-family:var(--font-display); font-weight:600; }
+  .hello .greet .n { font-family:var(--font-display); font-weight:700; font-size:24px; letter-spacing:-0.01em; }
+  .hello .av { width:46px; height:46px; border-radius:14px; background:var(--grad-violet); display:flex; align-items:center; justify-content:center; box-shadow:var(--glow-violet); border:1px solid rgba(255,255,255,0.14); position:relative; }
+  .hello .av b { font-family:var(--font-display); font-weight:700; }
+  .hello .av .dot2 { position:absolute; top:-3px; right:-3px; width:14px; height:14px; border-radius:50%; background:var(--success-500); border:2px solid var(--bg-0); }
+
+  .progress-card { margin-top:18px; padding:20px; border-radius:var(--r-xl); position:relative; overflow:hidden;
+    background: linear-gradient(150deg, #15223c 0%, #101829 100%); border:1px solid var(--border-strong); }
+  .progress-card::before { content:""; position:absolute; right:-40px; top:-40px; width:180px; height:180px; background:radial-gradient(circle, rgba(46,143,232,0.25), transparent 70%); }
+  .progress-card .flex { display:flex; align-items:center; gap:18px; position:relative; }
+  .ringwrap { position:relative; width:104px; height:104px; flex:none; }
+  .ringwrap .lbl { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .ringwrap .lbl b { font-family:var(--font-stat); font-weight:700; font-size:30px; line-height:1; }
+  .ringwrap .lbl span { font-size:10px; color:var(--text-3); letter-spacing:0.1em; font-family:var(--font-display); font-weight:600; }
+  .pc-stats { flex:1; }
+  .pc-row { display:flex; align-items:center; justify-content:space-between; padding:7px 0; }
+  .pc-row:not(:last-child){ border-bottom:1px solid var(--border); }
+  .pc-row .l { font-size:13px; color:var(--text-2); display:flex; align-items:center; gap:7px; }
+  .pc-row .l i { font-size:15px; }
+  .pc-row .v { font-family:var(--font-stat); font-weight:700; font-size:16px; }
+
+  .quick { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .qc { padding:16px; border-radius:var(--r-lg); background:var(--grad-surface); border:1px solid var(--border); cursor:pointer; transition:all .18s; position:relative; overflow:hidden; }
+  .qc:hover { transform:translateY(-3px); border-color:var(--border-glow); }
+  .qc .ico { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:12px; }
+  .qc h4 { font-family:var(--font-display); font-weight:600; font-size:15px; margin:0 0 3px; }
+  .qc p { font-size:11.5px; color:var(--text-3); margin:0; line-height:1.4; }
+  .qc .arr { position:absolute; right:14px; top:16px; color:var(--text-4); font-size:16px; }
+
+  .pal-scroll { display:flex; gap:12px; overflow-x:auto; padding:2px 0 6px; margin:0 -20px; padding-left:20px; padding-right:20px; }
+  .pal-scroll::-webkit-scrollbar{height:0;}
+  .palmini { flex:none; width:128px; border-radius:var(--r-lg); overflow:hidden; background:var(--grad-surface); border:1px solid var(--border); }
+  .palmini .img { height:96px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .palmini .img img { height:78px; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.4)); }
+  .palmini .img .r { position:absolute; top:8px; left:8px; }
+  .palmini .meta { padding:10px 12px; }
+  .palmini .meta b { font-family:var(--font-display); font-weight:600; font-size:14px; display:block; }
+  .palmini .meta span { font-size:11px; color:var(--text-3); }
+
+  .tip { display:flex; gap:12px; align-items:center; padding:14px 16px; border-radius:var(--r-lg); background:linear-gradient(135deg, rgba(139,69,230,0.16), rgba(46,143,232,0.10)); border:1px solid var(--violet-700); }
+  .tip img { width:48px; flex:none; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
+  .tip .txt b { font-family:var(--font-display); font-weight:600; font-size:13px; color:var(--violet-200); display:block; margin-bottom:2px; }
+  .tip .txt p { font-size:12px; color:var(--text-2); margin:0; line-height:1.45; }
+
+  .streak { display:flex; align-items:center; gap:10px; padding:13px 16px; border-radius:var(--r-lg); background:var(--warning-bg); border:1px solid color-mix(in srgb, var(--warning-500) 35%, transparent); margin-top:12px; }
+  .streak i { font-size:24px; color:var(--warning-400); }
+  .streak .t { flex:1; } .streak .t b { font-family:var(--font-display); font-size:14px; } .streak .t p{ margin:2px 0 0; font-size:11.5px; color:var(--text-3);}
+  .streak .n { font-family:var(--font-stat); font-weight:700; font-size:24px; color:var(--warning-400); }
+</style>
+</head>
+<body data-tab="accueil">
+<div class="phone">
+  <main class="screen-body">
+    <div class="hello">
+      <div class="greet"><div class="k">Bon retour, dresseur</div><div class="n">Salut, Kael 👋</div></div>
+      <div class="av"><b>K</b><span class="dot2"></span></div>
+    </div>
+
+    <div class="progress-card">
+      <div class="flex">
+        <div class="ringwrap">
+          <svg class="ring" width="104" height="104" viewBox="0 0 104 104">
+            <circle class="bg" cx="52" cy="52" r="44"></circle>
+            <circle class="fg" cx="52" cy="52" r="44" id="homering"></circle>
+          </svg>
+          <div class="lbl"><b>62%</b><span>PALDEX</span></div>
+        </div>
+        <div class="pc-stats">
+          <div class="pc-row"><span class="l"><i class="ph-fill ph-paw-print" style="color:var(--cyan-300)"></i>Capturés</span><span class="v">112<span style="color:var(--text-4);font-weight:400">/180</span></span></div>
+          <div class="pc-row"><span class="l"><i class="ph-fill ph-crown" style="color:var(--rarity-legendary)"></i>Alpha</span><span class="v">9<span style="color:var(--text-4);font-weight:400">/24</span></span></div>
+          <div class="pc-row"><span class="l"><i class="ph-fill ph-dna" style="color:var(--violet-300)"></i>Lignées</span><span class="v">4 actives</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="streak">
+      <i class="ph-fill ph-flame"></i>
+      <div class="t"><b>Série de captures</b><p>Continue, prochain palier à 10 jours</p></div>
+      <div class="n">7</div>
+    </div>
+
+    <div class="sec-title"><h3>Accès rapide</h3></div>
+    <div class="quick">
+      <a class="qc" href="breeding.html" style="text-decoration:none;color:inherit;">
+        <div class="ico" style="background:var(--info-bg);color:var(--primary-300);"><i class="ph-duotone ph-dna"></i></div>
+        <h4>Breeding</h4><p>Calcule la meilleure combinaison</p><i class="ph ph-arrow-up-right arr"></i>
+      </a>
+      <a class="qc" href="optimizer.html" style="text-decoration:none;color:inherit;">
+        <div class="ico" style="background:rgba(139,69,230,0.14);color:var(--violet-300);"><i class="ph-duotone ph-sparkle"></i></div>
+        <h4>Traits</h4><p>Optimise les passifs parfaits</p><i class="ph ph-arrow-up-right arr"></i>
+      </a>
+      <a class="qc" href="collection.html" style="text-decoration:none;color:inherit;">
+        <div class="ico" style="background:rgba(31,195,212,0.14);color:var(--cyan-300);"><i class="ph-duotone ph-squares-four"></i></div>
+        <h4>Collection</h4><p>Suis ta Paldex complète</p><i class="ph ph-arrow-up-right arr"></i>
+      </a>
+      <a class="qc" href="carte.html" style="text-decoration:none;color:inherit;">
+        <div class="ico" style="background:var(--success-bg);color:var(--success-400);"><i class="ph-duotone ph-map-trifold"></i></div>
+        <h4>Carte</h4><p>Spawns, boss & ressources</p><i class="ph ph-arrow-up-right arr"></i>
+      </a>
+    </div>
+
+    <div class="sec-title"><h3>Récemment capturés</h3><a href="collection.html">Tout voir <i class="ph-bold ph-caret-right"></i></a></div>
+    <div class="pal-scroll">
+      <div class="palmini"><div class="img" style="background:radial-gradient(circle at 50% 35%, rgba(245,182,56,0.25), transparent 70%);"><span class="badge badge-legendary r"><span class="dot"></span>Legd.</span><img src="../assets/nox-mascot.png"></div><div class="meta"><b>Anubis</b><span>#042 · Terre</span></div></div>
+      <div class="palmini"><div class="img" style="background:radial-gradient(circle at 50% 35%, rgba(242,85,90,0.22), transparent 70%);"><span class="badge badge-alpha r"><span class="dot"></span>Alpha</span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,0.4)) hue-rotate(140deg)"></div><div class="meta"><b>Jetragon</b><span>#111 · Foudre</span></div></div>
+      <div class="palmini"><div class="img" style="background:radial-gradient(circle at 50% 35%, rgba(31,195,212,0.22), transparent 70%);"><span class="badge badge-lucky r"><span class="dot"></span>Lucky</span><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 6px 12px rgba(0,0,0,0.4)) hue-rotate(60deg)"></div><div class="meta"><b>Frostallion</b><span>#089 · Glace</span></div></div>
+    </div>
+
+    <div class="sec-title"><h3>Conseil de Nox</h3></div>
+    <div class="tip">
+      <img src="../assets/nox-mascot.png">
+      <div class="txt"><b>Astuce d'élevage</b><p>Croise <b>Anubis × Jetragon</b> pour viser un Astegon avec le trait « Légende » plus rapidement.</p></div>
+    </div>
+  </main>
+</div>
+<script src="common.js"></script>
+<script>
+  document.querySelector('.phone').insertAdjacentHTML('beforeend', PALNOX.ringGrad());
+  PALNOX.chrome();
+  // animate ring
+  const r=44, c=2*Math.PI*r, ring=document.getElementById('homering');
+  ring.style.strokeDasharray=c; ring.style.strokeDashoffset=c;
+  requestAnimationFrame(()=>{ setTimeout(()=>{ ring.style.strokeDashoffset = c*(1-0.62); }, 200); });
+</script>
+</body>
+</html>

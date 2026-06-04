@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=390, initial-scale=1.0">
+<title>PALNOX — Carte</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="screen.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+  .mapwrap { position:absolute; inset:0; z-index:1; overflow:hidden; }
+  .mapbg { position:absolute; inset:0; background:
+    radial-gradient(70% 60% at 30% 25%, rgba(47,203,133,0.18), transparent 55%),
+    radial-gradient(60% 50% at 78% 70%, rgba(46,143,232,0.20), transparent 55%),
+    radial-gradient(50% 40% at 60% 12%, rgba(245,165,36,0.14), transparent 55%),
+    #0b1322; }
+  .grid-lines { position:absolute; inset:0; background-image:
+    linear-gradient(rgba(120,150,210,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,150,210,0.06) 1px, transparent 1px);
+    background-size:46px 46px; }
+  .terrain { position:absolute; border-radius:50%; filter:blur(1px); }
+  .pin { position:absolute; transform:translate(-50%,-100%); cursor:pointer; z-index:3; display:flex; flex-direction:column; align-items:center; }
+  .pin .head { width:38px; height:38px; border-radius:50% 50% 50% 0; transform:rotate(45deg); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 14px rgba(0,0,0,0.5); border:2px solid rgba(255,255,255,0.18); }
+  .pin .head i { transform:rotate(-45deg); color:#fff; font-size:18px; }
+  .pin.boss .head { background:var(--grad-premium); } .pin.boss .head i { color:#1a1206; }
+  .pin.alpha .head { background:linear-gradient(135deg,#FB6E72,#D63A40); }
+  .pin.water .head { background:var(--grad-cyan); }
+  .pin.spawn .head { background:var(--grad-violet); }
+  .pulse { position:absolute; width:38px; height:38px; border-radius:50%; transform:translate(-50%,-50%); }
+  .pulse::after { content:""; position:absolute; inset:0; border-radius:50%; border:2px solid currentColor; animation:pulse 2s var(--ease-out) infinite; }
+  @keyframes pulse { 0%{transform:scale(0.6);opacity:0.8} 100%{transform:scale(2.4);opacity:0} }
+
+  .map-top { position:absolute; top:0; left:0; right:0; z-index:6; padding:56px 16px 0; }
+  .map-search { display:flex; align-items:center; gap:10px; height:48px; padding:0 14px; border-radius:var(--r-pill); background:rgba(10,15,27,0.82); backdrop-filter:blur(12px); border:1px solid var(--border-strong); }
+  .map-search input { background:none; border:none; outline:none; color:var(--text-1); font-family:var(--font-body); font-size:14px; flex:1; }
+  .map-search input::placeholder { color:var(--text-4); }
+  .map-chips { display:flex; gap:8px; overflow-x:auto; margin-top:12px; padding-bottom:4px; }
+  .map-chips::-webkit-scrollbar{height:0;}
+  .map-chips .mc { flex:none; display:flex; align-items:center; gap:6px; height:34px; padding:0 13px; border-radius:99px; font-family:var(--font-display); font-weight:600; font-size:12.5px; background:rgba(10,15,27,0.82); backdrop-filter:blur(12px); border:1px solid var(--border); color:var(--text-2); }
+  .map-chips .mc.on { background:var(--grad-brand); color:#fff; border-color:transparent; }
+
+  .map-controls { position:absolute; right:14px; bottom:200px; z-index:6; display:flex; flex-direction:column; gap:8px; }
+  .map-controls .mb { width:44px; height:44px; border-radius:13px; background:rgba(10,15,27,0.86); backdrop-filter:blur(12px); border:1px solid var(--border-strong); display:flex; align-items:center; justify-content:center; color:var(--text-1); font-size:20px; }
+
+  .sheet { position:absolute; left:10px; right:10px; bottom:96px; z-index:7; border-radius:var(--r-xl); background:rgba(15,22,38,0.92); backdrop-filter:blur(18px); border:1px solid var(--border-strong); box-shadow:var(--shadow-4); padding:16px; }
+  .sheet .grab { width:38px; height:4px; border-radius:99px; background:var(--surface-4); margin:0 auto 14px; }
+  .sheet .sh-top { display:flex; align-items:center; gap:14px; }
+  .sheet .sh-img { width:60px; height:60px; border-radius:15px; background:radial-gradient(circle at 50% 35%,rgba(245,182,56,0.3),transparent 70%); display:flex; align-items:center; justify-content:center; flex:none; border:1px solid var(--border); }
+  .sheet .sh-img img { height:48px; filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)); }
+  .sheet h3 { font-family:var(--font-display); font-weight:700; font-size:18px; margin:0; }
+  .sheet .loc { font-size:12px; color:var(--text-3); margin-top:4px; display:flex; align-items:center; gap:5px; }
+  .sheet .sh-stats { display:flex; gap:18px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+  .sheet .sh-stats div span { display:block; }
+  .sheet .sh-stats .v { font-family:var(--font-stat); font-weight:700; font-size:16px; }
+  .sheet .sh-stats .l { font-size:10.5px; color:var(--text-3); font-family:var(--font-display); font-weight:600; letter-spacing:0.04em; text-transform:uppercase; }
+  .tabbar { position:absolute; bottom:0; left:0; right:0; }
+</style>
+</head>
+<body data-tab="carte">
+<div class="phone">
+  <div class="mapwrap">
+    <div class="mapbg"></div>
+    <div class="grid-lines"></div>
+    <div class="terrain" style="width:160px;height:140px;left:-30px;top:120px;background:radial-gradient(circle,rgba(47,203,133,0.3),transparent 70%);"></div>
+    <div class="terrain" style="width:180px;height:160px;right:-40px;top:360px;background:radial-gradient(circle,rgba(46,143,232,0.3),transparent 70%);"></div>
+    <div class="terrain" style="width:120px;height:110px;left:120px;top:300px;background:radial-gradient(circle,rgba(245,165,36,0.22),transparent 70%);"></div>
+
+    <div class="pulse" style="left:200px;top:300px;color:var(--rarity-legendary)"></div>
+    <div class="pin boss" style="left:200px;top:300px;"><div class="head"><i class="ph-fill ph-crown"></i></div></div>
+    <div class="pin alpha" style="left:96px;top:240px;"><div class="head"><i class="ph-fill ph-sword"></i></div></div>
+    <div class="pin spawn" style="left:280px;top:200px;"><div class="head"><i class="ph-fill ph-paw-print"></i></div></div>
+    <div class="pin water" style="left:150px;top:430px;"><div class="head"><i class="ph-fill ph-drop"></i></div></div>
+    <div class="pin spawn" style="left:300px;top:430px;"><div class="head"><i class="ph-fill ph-paw-print"></i></div></div>
+  </div>
+
+  <div class="map-top">
+    <div class="map-search"><i class="ph ph-magnifying-glass" style="color:var(--text-3)"></i><input placeholder="Rechercher un lieu ou un Pal…"><i class="ph ph-microphone" style="color:var(--text-3)"></i></div>
+    <div class="map-chips">
+      <div class="mc on"><i class="ph-fill ph-crown"></i>Boss</div>
+      <div class="mc"><i class="ph ph-paw-print"></i>Spawns</div>
+      <div class="mc"><i class="ph ph-sword"></i>Alpha</div>
+      <div class="mc"><i class="ph ph-cube"></i>Ressources</div>
+      <div class="mc"><i class="ph ph-tent"></i>Camps</div>
+    </div>
+  </div>
+
+  <div class="map-controls">
+    <div class="mb"><i class="ph-bold ph-plus"></i></div>
+    <div class="mb"><i class="ph-bold ph-minus"></i></div>
+    <div class="mb" style="color:var(--cyan-300)"><i class="ph-fill ph-navigation-arrow"></i></div>
+  </div>
+
+  <div class="sheet">
+    <div class="grab"></div>
+    <div class="sh-top">
+      <div class="sh-img"><img src="../assets/nox-mascot.png" style="filter:drop-shadow(0 4px 8px rgba(0,0,0,.4)) hue-rotate(30deg)"></div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:8px;"><h3>Astegon</h3><span class="badge badge-legendary"><span class="dot"></span>Boss</span></div>
+        <div class="loc"><i class="ph-fill ph-map-pin"></i>Tour de la Fissure · Secteur 4</div>
+      </div>
+      <div class="iconbtn"><i class="ph ph-navigation-arrow"></i></div>
+    </div>
+    <div class="sh-stats">
+      <div><span class="v" style="color:var(--rarity-legendary)">Niv. 50</span><span class="l">Recommandé</span></div>
+      <div><span class="v">14%</span><span class="l">Capture</span></div>
+      <div><span class="v" style="color:var(--cyan-300)">3</span><span class="l">Spots actifs</span></div>
+    </div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>PALNOX.chrome();</script>
+</body>
+</html>

@@ -84,8 +84,16 @@ export default function SettingsPage() {
   const [toggles, setToggles] = useState<Record<string, boolean>>({
     eggs: true, streak: true, boss: false, noxTips: true, voice: false,
   })
+  const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   const toggle = (key: string) => setToggles(p => ({ ...p, [key]: !p[key] }))
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true)
+    const { createClient } = await import('@/lib/supabase/client')
+    await createClient().auth.signOut()
+    window.location.href = '/'
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -186,17 +194,22 @@ export default function SettingsPage() {
           style={{ borderColor: 'rgba(120,150,210,0.12)' }}
         >
           <button
-            className="w-full flex items-center gap-3 px-4 py-3.5 cursor-pointer"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="w-full flex items-center gap-3 px-4 py-3.5 cursor-pointer disabled:opacity-60"
             style={{ background: 'var(--grad-surface)' }}
           >
             <div
               className="w-[34px] h-[34px] rounded-[10px] flex items-center justify-center flex-none"
               style={{ background: 'rgba(242,85,90,0.14)' }}
             >
-              <SignOut size={18} weight="fill" color="var(--error-400)" />
+              {isLoggingOut
+                ? <span className="w-4 h-4 rounded-full border-2 border-error-400 border-t-transparent animate-spin" />
+                : <SignOut size={18} weight="fill" color="var(--error-400)" />
+              }
             </div>
             <b className="font-display font-semibold text-[14px]" style={{ color: 'var(--error-400)' }}>
-              Déconnexion
+              {isLoggingOut ? 'Déconnexion…' : 'Déconnexion'}
             </b>
           </button>
         </div>

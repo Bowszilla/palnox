@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'palworld.wiki.gg',
         pathname: '/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
 };

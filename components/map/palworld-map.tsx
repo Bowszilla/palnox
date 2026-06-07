@@ -1,15 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { MapContainer, ImageOverlay, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Wiki map: 2155×1903 px — the most recent version (includes Feybreak Island)
-// Leaflet CRS.Simple bounds match the image pixel dimensions
-const MAP_W = 2155
-const MAP_H = 1903
-const BOUNDS: L.LatLngBoundsExpression = [[0, 0], [MAP_H, MAP_W]]
-const WORLD_MAP_URL = 'https://palworld.wiki.gg/images/Palpagos_Islands.png'
+// Tile server: cdn.th.gl — 512px tiles, zoom 0-4, TMS convention (y=0 at bottom)
+// Full map fits in a 512×512 CRS.Simple coordinate space at z=0
+const TILE_URL = 'https://cdn.th.gl/palworld/map-tiles/default/{z}/{x}/{y}.webp'
+const TILE_SIZE = 512
+const MAP_UNITS = TILE_SIZE // at z=0, one tile covers the whole map
+const BOUNDS: L.LatLngBoundsExpression = [[0, 0], [MAP_UNITS, MAP_UNITS]]
 
 export type MarkerType = 'boss' | 'alpha' | 'spawn' | 'resource' | 'camp'
 
@@ -17,8 +17,8 @@ export interface MapLocation {
   id: string
   name: string
   type: MarkerType
-  x: number // 0-100 scale (% of map width)
-  y: number // 0-100 scale (% of map height, 0=top)
+  x: number // 0-100 (% from left)
+  y: number // 0-100 (% from top, 0=top)
   description?: string
   palName?: string
 }
@@ -44,11 +44,10 @@ const TYPE_ICONS: Record<MarkerType, string> = {
   camp:     '⌂',
 }
 
-// DB coords (x,y 0-100) → Leaflet [lat, lng]
-// lat = MAP_H - y%*MAP_H  (invert y: 0=top in image → lat=MAP_H in Leaflet)
-// lng = x% * MAP_W
+// DB (x,y 0-100, y=0 at top) → Leaflet [lat, lng]
+// CRS.Simple: lat increases upward → lat = MAP_UNITS * (1 - y/100)
 function toLatLng(x: number, y: number): L.LatLngExpression {
-  return [MAP_H - (y / 100) * MAP_H, (x / 100) * MAP_W]
+  return [MAP_UNITS * (1 - y / 100), MAP_UNITS * (x / 100)]
 }
 
 function createMarkerIcon(type: MarkerType) {
@@ -57,18 +56,15 @@ function createMarkerIcon(type: MarkerType) {
   return L.divIcon({
     className: '',
     html: `<div style="
-      width:44px; height:44px; border-radius:50%;
-      background:${color}28;
-      border:2.5px solid ${color};
-      display:flex; align-items:center; justify-content:center;
+      width:44px;height:44px;border-radius:50%;
+      background:${color}28;border:2.5px solid ${color};
+      display:flex;align-items:center;justify-content:center;
       font-size:20px;
       box-shadow:0 0 18px ${color}99, 0 3px 10px rgba(0,0,0,0.7);
-      backdrop-filter:blur(4px);
-      cursor:pointer;
+      backdrop-filter:blur(4px);cursor:pointer;
     ">${icon}</div>`,
     iconSize: [44, 44],
     iconAnchor: [22, 22],
-    popupAnchor: [0, -26],
   })
 }
 
@@ -91,10 +87,7 @@ function Markers({ locations, onMarkerClick }: Pick<Props, 'locations' | 'onMark
       )
 
       if (onMarkerClick) {
-        m.on('click', (e) => {
-          L.DomEvent.stopPropagation(e)
-          onMarkerClick(loc)
-        })
+        m.on('click', (e) => { L.DomEvent.stopPropagation(e); onMarkerClick(loc) })
       }
 
       markers.push(m)
@@ -115,12 +108,20 @@ export function PalworldMap({ locations, onMarkerClick }: Props) {
     <MapContainer
       crs={L.CRS.Simple}
       bounds={BOUNDS}
-      minZoom={-3}
-      maxZoom={2}
+      minZoom={0}
+      maxZoom={4}
       style={{ width: '100%', height: '100%', background: '#071520' }}
       zoomControl={false}
     >
-      <ImageOverlay url={WORLD_MAP_URL} bounds={BOUNDS} opacity={1} />
+      <TileLayer
+        url={TILE_URL}
+        tileSize={TILE_SIZE}
+        minZoom={0}
+        maxZoom={4}
+        noWrap
+        tms
+        attribution='Map tiles © <a href="https://palworld.th.gl" target="_blank">palworld.th.gl</a>'
+      />
       <Markers locations={locations} onMarkerClick={onMarkerClick} />
     </MapContainer>
   )

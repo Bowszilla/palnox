@@ -10,7 +10,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Pal, PalElement, PalRarity } from '@/types/pal'
 
 const FILTERS = ['Tous', 'Capturés', 'Manquants', 'Alpha', 'Feu', 'Eau', 'Glace', 'Terre']
-const TOTAL_PALDEX = 180
+const TOTAL_PALDEX = 137
 
 function SkeletonGrid() {
   return (

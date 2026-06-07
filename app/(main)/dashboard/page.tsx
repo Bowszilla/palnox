@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useUser } from '@/lib/hooks/use-user'
 import type { Pal, PalElement, PalRarity } from '@/types/pal'
 
-const TOTAL_PALDEX = 180
+const TOTAL_PALDEX = 137
 
 const QUICK_ACCESS = [
   { title: 'Breeding', desc: 'Calcule la meilleure combinaison', href: '/breeding', color: 'var(--primary-300)', bg: 'rgba(46,143,232,0.14)', Icon: Dna },

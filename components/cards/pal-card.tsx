@@ -82,7 +82,7 @@ export function PalCard({ pal, isCaptured = true, onClick, size = 'md' }: PalCar
 
         <div className="relative flex items-center justify-center" style={{ width: imgSize, height: imgSize }}>
           <PalImage
-            src={isCaptured ? pal.imageUrl : undefined}
+            src={pal.imageUrl}
             alt={pal.name}
             size={imgSize}
             captured={isCaptured}

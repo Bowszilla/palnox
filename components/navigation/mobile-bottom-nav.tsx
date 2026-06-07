@@ -23,7 +23,7 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="sticky bottom-0 left-0 right-0 flex items-end justify-around z-50"
+      className="fixed bottom-0 left-0 right-0 flex items-end justify-around z-50"
       style={{
         background: 'rgba(6,10,18,0.86)',
         backdropFilter: 'blur(16px)',

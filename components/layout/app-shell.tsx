@@ -9,7 +9,7 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   return (
     <div
-      className="flex min-h-screen"
+      className="flex h-screen overflow-hidden"
       style={{
         background: `
           radial-gradient(90% 60% at 50% -10%, rgba(46,143,232,0.12), transparent 60%),

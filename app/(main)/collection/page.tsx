@@ -41,11 +41,11 @@ export default function CollectionPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) setUserId(user.id)
 
-      type PalRow = { id: string; pal_number: number; name: string; element_primary: string; element_secondary: string | null; rarity: string }
+      type PalRow = { id: string; pal_number: number; name: string; element_primary: string; element_secondary: string | null; rarity: string; image_url: string | null }
 
       const { data: rawPals } = await supabase
         .from('pals')
-        .select('id, pal_number, name, element_primary, element_secondary, rarity')
+        .select('id, pal_number, name, element_primary, element_secondary, rarity, image_url')
         .order('pal_number')
 
       const palsData = rawPals as PalRow[] | null
@@ -58,6 +58,7 @@ export default function CollectionPage() {
           elementPrimary: p.element_primary as PalElement,
           elementSecondary: p.element_secondary as PalElement ?? undefined,
           rarity: p.rarity as PalRarity,
+          imageUrl: p.image_url ?? undefined,
         })))
       }
 

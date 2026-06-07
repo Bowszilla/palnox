@@ -34,7 +34,7 @@ export default function DashboardPage() {
     const uid = user.id
     const supabase = createClient()
 
-    type PalRow = { id: string; pal_number: number; name: string; element_primary: string; rarity: string }
+    type PalRow = { id: string; pal_number: number; name: string; element_primary: string; rarity: string; image_url: string | null }
     const RARITY_BADGE: Record<string, string> = { legendary: 'Légd.', alpha: 'Alpha', lucky: 'Lucky', boss: 'Boss', epic: 'Épique', rare: 'Rare', common: 'Comm.' }
 
     async function load() {
@@ -57,7 +57,7 @@ export default function DashboardPage() {
       if (recentIds.length > 0) {
         const { data: rawPals } = await supabase
           .from('pals')
-          .select('id, pal_number, name, element_primary, rarity')
+          .select('id, pal_number, name, element_primary, rarity, image_url')
           .in('id', recentIds)
 
         const palsData = rawPals as PalRow[] | null
@@ -67,7 +67,7 @@ export default function DashboardPage() {
             .filter((p): p is PalRow => !!p)
 
           setRecentPals(ordered.map(p => ({
-            pal: { id: p.id, palNumber: p.pal_number, name: p.name, elementPrimary: p.element_primary as PalElement, rarity: p.rarity as PalRarity },
+            pal: { id: p.id, palNumber: p.pal_number, name: p.name, elementPrimary: p.element_primary as PalElement, rarity: p.rarity as PalRarity, imageUrl: p.image_url ?? undefined },
             badge: RARITY_BADGE[p.rarity] ?? p.rarity,
           })))
         }

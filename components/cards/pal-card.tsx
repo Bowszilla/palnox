@@ -1,10 +1,12 @@
 'use client'
-import Image from 'next/image'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { LockSimple } from '@phosphor-icons/react'
 import { TraitBadge } from '@/components/ui/trait-badge'
 import { getRarityColor } from '@/lib/utils'
 import type { Pal } from '@/types/pal'
+
+const FALLBACK = '/mascot/nox-mascot.png'
 
 interface PalCardProps {
   pal: Pal
@@ -23,8 +25,30 @@ const RARITY_LABEL: Record<string, string> = {
   boss: 'Boss',
 }
 
+function PalImage({ src, alt, size, captured }: { src?: string; alt: string; size: number; captured: boolean }) {
+  const [imgSrc, setImgSrc] = useState(src ?? FALLBACK)
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={imgSrc}
+      alt={alt}
+      width={size}
+      height={size}
+      onError={() => setImgSrc(FALLBACK)}
+      className="object-contain"
+      style={{
+        filter: captured
+          ? 'drop-shadow(0 5px 10px rgba(0,0,0,0.4))'
+          : 'brightness(0) invert(0.22)',
+      }}
+    />
+  )
+}
+
 export function PalCard({ pal, isCaptured = true, onClick, size = 'md' }: PalCardProps) {
   const rarityColor = getRarityColor(pal.rarity)
+  const imgSize = size === 'sm' ? 52 : 60
 
   return (
     <motion.div
@@ -48,33 +72,20 @@ export function PalCard({ pal, isCaptured = true, onClick, size = 'md' }: PalCar
             : undefined,
         }}
       >
-        <span
-          className="absolute top-1.5 left-1.5 font-display font-bold text-[10px]"
-          style={{ color: 'var(--text-4)' }}
-        >
+        <span className="absolute top-1.5 left-1.5 font-display font-bold text-[10px]" style={{ color: 'var(--text-4)' }}>
           {String(pal.palNumber).padStart(3, '0')}
         </span>
 
-        {/* Rarity dot */}
         {isCaptured && (
-          <span
-            className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full"
-            style={{ background: rarityColor }}
-          />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: rarityColor }} />
         )}
 
-        <div className="relative w-[60px] h-[60px] flex items-center justify-center">
-          <Image
-            src="/mascot/nox-mascot.png"
+        <div className="relative flex items-center justify-center" style={{ width: imgSize, height: imgSize }}>
+          <PalImage
+            src={isCaptured ? pal.imageUrl : undefined}
             alt={pal.name}
-            width={60}
-            height={60}
-            className="object-contain"
-            style={{
-              filter: isCaptured
-                ? 'drop-shadow(0 5px 10px rgba(0,0,0,0.4))'
-                : 'brightness(0) invert(0.22)',
-            }}
+            size={imgSize}
+            captured={isCaptured}
           />
         </div>
 
@@ -86,10 +97,7 @@ export function PalCard({ pal, isCaptured = true, onClick, size = 'md' }: PalCar
       </div>
 
       {/* Meta */}
-      <div
-        className="px-2 py-2 border-t"
-        style={{ borderColor: 'rgba(120,150,210,0.12)' }}
-      >
+      <div className="px-2 py-2 border-t" style={{ borderColor: 'rgba(120,150,210,0.12)' }}>
         <b className="font-display font-semibold text-[12px] text-ink-1 block truncate">
           {isCaptured ? pal.name : '? ? ?'}
         </b>
@@ -104,30 +112,29 @@ export function PalCard({ pal, isCaptured = true, onClick, size = 'md' }: PalCar
 /* Mini card used in "recently captured" scroll */
 export function PalMiniCard({ pal, badge }: { pal: Pal; badge?: string }) {
   const rarityColor = getRarityColor(pal.rarity)
+  const [imgSrc, setImgSrc] = useState(pal.imageUrl ?? FALLBACK)
+
   return (
     <div
       className="flex-none w-32 rounded-lg overflow-hidden border"
-      style={{
-        background: 'var(--grad-surface)',
-        borderColor: 'rgba(120,150,210,0.12)',
-      }}
+      style={{ background: 'var(--grad-surface)', borderColor: 'rgba(120,150,210,0.12)' }}
     >
       <div
         className="h-24 flex items-center justify-center relative"
-        style={{
-          background: `radial-gradient(circle at 50% 35%, ${rarityColor}33, transparent 70%)`,
-        }}
+        style={{ background: `radial-gradient(circle at 50% 35%, ${rarityColor}33, transparent 70%)` }}
       >
         {badge && (
           <div className="absolute top-2 left-2">
             <TraitBadge label={badge} variant={pal.rarity} dot />
           </div>
         )}
-        <Image
-          src="/mascot/nox-mascot.png"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imgSrc}
           alt={pal.name}
           width={78}
           height={78}
+          onError={() => setImgSrc(FALLBACK)}
           className="object-contain"
           style={{ filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.4))' }}
         />

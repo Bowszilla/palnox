@@ -4,11 +4,12 @@ import { MapContainer, ImageOverlay, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Coordinate space: 0-100 in DB, mapped to 0-600 for the 600x600 map images
-// T_WorldMap.png and spawn maps (001-day.png etc.) share the same 600x600 space
-const BOUNDS: L.LatLngBoundsExpression = [[0, 0], [600, 600]]
-const WORLD_MAP_URL = 'https://raw.githubusercontent.com/mlg404/palworld-paldex-api/main/public/images/T_WorldMap.png'
-const SPAWN_BASE = 'https://raw.githubusercontent.com/mlg404/palworld-paldex-api/main/public/images/maps/'
+// Wiki map: 2155×1903 px — the most recent version (includes Feybreak Island)
+// Leaflet CRS.Simple bounds match the image pixel dimensions
+const MAP_W = 2155
+const MAP_H = 1903
+const BOUNDS: L.LatLngBoundsExpression = [[0, 0], [MAP_H, MAP_W]]
+const WORLD_MAP_URL = 'https://palworld.wiki.gg/images/Palpagos_Islands.png'
 
 export type MarkerType = 'boss' | 'alpha' | 'spawn' | 'resource' | 'camp'
 
@@ -16,16 +17,14 @@ export interface MapLocation {
   id: string
   name: string
   type: MarkerType
-  x: number // 0-100 scale in DB
-  y: number // 0-100 scale in DB, 0=top
+  x: number // 0-100 scale (% of map width)
+  y: number // 0-100 scale (% of map height, 0=top)
   description?: string
   palName?: string
 }
 
 interface Props {
   locations: MapLocation[]
-  spawnPalNumber?: number | null
-  spawnMode?: 'day' | 'night'
   onMarkerClick?: (loc: MapLocation) => void
 }
 
@@ -45,10 +44,11 @@ const TYPE_ICONS: Record<MarkerType, string> = {
   camp:     '⌂',
 }
 
-// DB coords (x,y in 0-100, y=0 at top) → Leaflet CRS.Simple [lat, lng]
-// In CRS.Simple lat increases upward, so we invert y: lat = 600 - y*6
+// DB coords (x,y 0-100) → Leaflet [lat, lng]
+// lat = MAP_H - y%*MAP_H  (invert y: 0=top in image → lat=MAP_H in Leaflet)
+// lng = x% * MAP_W
 function toLatLng(x: number, y: number): L.LatLngExpression {
-  return [600 - y * 6, x * 6]
+  return [MAP_H - (y / 100) * MAP_H, (x / 100) * MAP_W]
 }
 
 function createMarkerIcon(type: MarkerType) {
@@ -57,18 +57,18 @@ function createMarkerIcon(type: MarkerType) {
   return L.divIcon({
     className: '',
     html: `<div style="
-      width:42px; height:42px; border-radius:50%;
-      background:${color}30;
+      width:44px; height:44px; border-radius:50%;
+      background:${color}28;
       border:2.5px solid ${color};
       display:flex; align-items:center; justify-content:center;
-      font-size:18px;
-      box-shadow:0 0 16px ${color}99, 0 2px 8px rgba(0,0,0,0.6);
+      font-size:20px;
+      box-shadow:0 0 18px ${color}99, 0 3px 10px rgba(0,0,0,0.7);
       backdrop-filter:blur(4px);
       cursor:pointer;
     ">${icon}</div>`,
-    iconSize: [42, 42],
-    iconAnchor: [21, 21],
-    popupAnchor: [0, -24],
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+    popupAnchor: [0, -26],
   })
 }
 
@@ -86,8 +86,8 @@ function Markers({ locations, onMarkerClick }: Pick<Props, 'locations' | 'onMark
 
       const color = TYPE_COLORS[loc.type]
       m.bindTooltip(
-        `<b style="color:${color}">${loc.name}</b>`,
-        { permanent: false, direction: 'top', offset: [0, -24], className: '' }
+        `<b style="color:${color};font-family:sans-serif;font-size:13px">${loc.name}</b>`,
+        { permanent: false, direction: 'top', offset: [0, -26], className: '' }
       )
 
       if (onMarkerClick) {
@@ -106,26 +106,21 @@ function Markers({ locations, onMarkerClick }: Pick<Props, 'locations' | 'onMark
   return null
 }
 
-export function PalworldMap({ locations, spawnPalNumber, spawnMode = 'day', onMarkerClick }: Props) {
+export function PalworldMap({ locations, onMarkerClick }: Props) {
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
   if (!mounted) return null
-
-  // When a pal is selected, the spawn map already includes the world map background
-  const activeMapUrl = spawnPalNumber
-    ? `${SPAWN_BASE}${String(spawnPalNumber).padStart(3, '0')}-${spawnMode}.png`
-    : WORLD_MAP_URL
 
   return (
     <MapContainer
       crs={L.CRS.Simple}
       bounds={BOUNDS}
-      minZoom={-2}
+      minZoom={-3}
       maxZoom={2}
-      style={{ width: '100%', height: '100%', background: '#060A12' }}
+      style={{ width: '100%', height: '100%', background: '#071520' }}
       zoomControl={false}
     >
-      <ImageOverlay key={activeMapUrl} url={activeMapUrl} bounds={BOUNDS} opacity={1} />
+      <ImageOverlay url={WORLD_MAP_URL} bounds={BOUNDS} opacity={1} />
       <Markers locations={locations} onMarkerClick={onMarkerClick} />
     </MapContainer>
   )

@@ -8,14 +8,17 @@ import type { MapLocation, MarkerType } from '@/components/map/palworld-map'
 
 const PalworldMap = dynamic(
   () => import('@/components/map/palworld-map').then(m => m.PalworldMap),
-  { ssr: false, loading: () => (
-    <div className="w-full h-full flex items-center justify-center" style={{ background: '#060A12' }}>
-      <div className="text-center">
-        <div className="w-10 h-10 rounded-full border-2 border-primary-500 border-t-transparent animate-spin mx-auto mb-3" />
-        <p className="font-display text-[13px] text-ink-3">Chargement de la carte…</p>
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full flex items-center justify-center" style={{ background: '#071520' }}>
+        <div className="text-center">
+          <div className="w-10 h-10 rounded-full border-2 border-primary-500 border-t-transparent animate-spin mx-auto mb-3" />
+          <p className="font-display text-[13px] text-ink-3">Chargement de la carte…</p>
+        </div>
       </div>
-    </div>
-  )}
+    ),
+  }
 )
 
 const FILTER_CHIPS = [
@@ -110,8 +113,6 @@ export default function MapPage() {
       <div className="absolute inset-0 z-[1]">
         <PalworldMap
           locations={filteredLocations}
-          spawnPalNumber={spawnPalNumber}
-          spawnMode={spawnMode}
           onMarkerClick={handleMarkerClick}
         />
       </div>
